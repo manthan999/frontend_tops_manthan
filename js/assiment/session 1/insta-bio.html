@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
-        alert("Welcome to your Insta Bio-Link Page!")
+        alert("Welcome to your Insta Bio-Link Page!") 
     </script>
 </head>
 <body>
+   <button id="showBio">Show Bio</button>
+
+    <script>
+        const button = document.querySelector("#showBio");
+
+        button.addEventListener("click", function() {
+            alert("My name is Manthan and my favorite app is Instagram");
+        });
+    </script>
 
 </body>
 </html>

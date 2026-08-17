@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <script>
+// Primitive type 
+let user1 = "Priya";
+let user2 = user1;
+
+
+user1 = "Riya";
+
+console.log("user1:", user1);
+console.log("user2:", user2);
+
+// Reference type 
+let favApps1 = ["Instagram", "Spotify"];
+let favApps2 = favApps1;
+
+
+favApps1.push("Zomato");
+
+console.log("favApps1:", favApps1);
+console.log("favApps2:", favApps2);
+
+/*
+Difference:
+- Primitive types store a separate value. So changing user1
+  does not change user2.
+- Arrays are reference types. favApps1 and favApps2 point to
+  the same array, so changing favApps1 also changes favApps2.
+*/
+    </script>
+</head>
+<body>
+   
+</body>
+</html>

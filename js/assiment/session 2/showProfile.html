@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function showProfile(name, followers, isPremium) {
+    console.log("Name:", name);
+    console.log("Is Premium:", isPremium);
+
+    // Dynamic typing: followers starts as a string
+    followers = "1000";
+    console.log("Followers:", followers);
+    console.log("Type:", typeof followers);
+
+    // Now followers becomes a number
+    followers = 1000;
+    console.log("Followers:", followers);
+    console.log("Type:", typeof followers);
+
+    // Finally, print the type again
+    console.log("Final Type:", typeof followers);
+}
+
+// Call the function
+showProfile("Manthan", 500, true);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

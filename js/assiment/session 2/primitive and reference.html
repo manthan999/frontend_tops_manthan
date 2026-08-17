@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+// Primitive Type
+let favFood = "pizza";
+let favFoodCopy = favFood;
+
+// Change favFood
+favFood = "burger";
+
+console.log("favFood:", favFood);
+console.log("favFoodCopy:", favFoodCopy);
+
+
+// Reference Type
+let zomatoUser = {
+    city: "Vadodara"
+};
+
+let zomatoUserCopy = zomatoUser;
+
+// Change city in zomatoUser
+zomatoUser.city = "Ahmedabad";
+
+console.log("zomatoUser:", zomatoUser);
+console.log("zomatoUserCopy:", zomatoUserCopy);
+
+/*
+Difference:
+
+Primitive type:
+favFoodCopy keeps the original value "pizza"
+because primitives are copied by value.
+
+Reference type:
+Both zomatoUser and zomatoUserCopy show "Ahmedabad"
+because both variables refer to the same object in memory.*/
+</script>
+</head>
+<body>
+    
+</body>
+</html>

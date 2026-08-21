@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function canOrderFood(isLoggedIn, hasPaymentMethod) {
+    return isLoggedIn && hasPaymentMethod;
+}
+
+console.log(canOrderFood(true, true));   
+console.log(canOrderFood(true, false));  
+console.log(canOrderFood(false, true));  
+console.log(canOrderFood(false, false)); 
+    </script>
+</body>
+</html>

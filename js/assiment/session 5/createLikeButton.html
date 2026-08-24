@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function createLikeButton(label, color) {
+    const button = document.createElement("button");
+
+    button.textContent = label;
+    button.style.backgroundColor = color;
+    button.style.color = "white";
+    button.style.padding = "10px 20px";
+    button.style.border = "none";
+    button.style.borderRadius = "5px";
+    button.style.cursor = "pointer";
+
+    document.body.appendChild(button);
+
+    return button;
+}
+
+createLikeButton("Like ❤️", "blue");
+    </script>
+</body>
+</html>

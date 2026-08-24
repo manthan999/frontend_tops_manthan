@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Button</title>
+</head>
+<body>
+
+<script>
+function createSpotifyButton(label, color) {
+    const button = document.createElement("button");
+
+    button.textContent = label;
+    button.style.backgroundColor = color;
+
+    document.body.appendChild(button);
+
+    return button;
+}
+
+createSpotifyButton("Play Spotify", "green");
+</script>
+
+</body>
+</html>

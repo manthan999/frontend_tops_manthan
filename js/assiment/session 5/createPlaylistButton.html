@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function createPlaylistButton(songName, themeColor) {
+    const button = document.createElement("button");
+
+    button.textContent = songName;
+    button.style.backgroundColor = themeColor;
+    button.style.color = "white";
+    button.style.padding = "10px 20px";
+    button.style.margin = "5px";
+    button.style.border = "none";
+    button.style.borderRadius = "8px";
+    button.style.cursor = "pointer";
+
+    return button;
+}
+
+
+const song1 = createPlaylistButton("Blinding Lights", "green");
+const song2 = createPlaylistButton("Perfect", "blue");
+const song3 = createPlaylistButton("Shape of You", "purple");
+
+
+document.body.appendChild(song1);
+document.body.appendChild(song2);
+document.body.appendChild(song3);
+    </script>
+</body>
+</html>

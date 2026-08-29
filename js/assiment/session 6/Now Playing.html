@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Now Playing</title>
+</head>
+<body>
+
+    <h2>🎵 Now Playing</h2>
+    <span id="song-title">Blinding Lights</span>
+    <br><br>
+
+    <button id="changeSong">Change Song</button>
+
+    <script>
+        const songs = [
+            "Blinding Lights",
+            "Shape of You",
+            "Perfect",
+            "Levitating"
+        ];
+
+        let index = 0;
+
+        document.getElementById("changeSong").addEventListener("click", function() {
+            index = (index + 1) % songs.length;
+            document.getElementById("song-title").innerHTML = songs[index];
+        });
+    </script>
+
+</body>
+</html>

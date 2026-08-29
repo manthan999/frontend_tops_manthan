@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playlist Builder</title>
+</head>
+<body>
+
+    <h2>My Playlist</h2>
+
+    <input type="text" id="songInput" placeholder="Enter song name">
+    <button id="addSong">Add Song</button>
+
+    <ul id="playlist"></ul>
+
+    <script>
+        document.querySelector("#addSong").addEventListener("click", function() {
+            let songName = document.querySelector("#songInput").value;
+
+            let li = document.createElement("li");
+            li.innerHTML = songName;
+
+            document.querySelector("#playlist").appendChild(li);
+
+            document.querySelector("#songInput").value = "";
+        });
+    </script>
+
+</body>
+</html>

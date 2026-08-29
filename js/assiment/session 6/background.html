@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mood Box</title>
+</head>
+<body>
+
+    <input type="text" id="colorInput" placeholder="Enter a color">
+    <div id="moodbox" style="width: 200px; height: 200px; border: 1px solid black;"></div>
+
+    <script>
+        const colorInput = document.getElementById("colorInput");
+        const moodbox = document.getElementById("moodbox");
+
+        colorInput.addEventListener("input", function() {
+            moodbox.style.backgroundColor = colorInput.value;
+        });
+    </script>
+
+</body>
+</html>

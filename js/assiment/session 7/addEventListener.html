@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Like Button</title>
+</head>
+<body>
+
+    <h2>📸 Instagram Post</h2>
+
+    <button id="likeBtn">❤️ Like 0</button>
+
+    <script>
+        let likeCount = 0;
+
+        let button = document.getElementById("likeBtn");
+
+        button.addEventListener("click", function() {
+            likeCount++;
+            button.innerText = "❤️ Like " + likeCount;
+        });
+    </script>
+
+</body>
+</html>

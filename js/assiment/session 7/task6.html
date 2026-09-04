@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zomato Food Order</title>
+</head>
+<body>
+
+    <h2>🍔 Zomato Food Order</h2>
+
+    <label>Select Cuisine:</label>
+    <select id="cuisine" onchange="showCuisine()">
+        <option value="">-- Select Cuisine --</option>
+        <option value="Indian">Indian</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Italian">Italian</option>
+        <option value="Mexican">Mexican</option>
+    </select>
+
+    <br><br>
+
+    <label>Quantity:</label>
+    <input type="number" id="quantity" min="1" value="1">
+
+    <p id="message"></p>
+
+    <script>
+        function showCuisine() {
+            let cuisine = document.getElementById("cuisine").value;
+
+            if (cuisine) {
+                document.getElementById("message").innerText =
+                    "You selected " + cuisine + " cuisine!";
+            } else {
+                document.getElementById("message").innerText = "";
+            }
+        }
+    </script>
+
+</body>
+</html>

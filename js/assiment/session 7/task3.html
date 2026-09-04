@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Playlist</title>
+</head>
+<body>
+
+    <button onclick="addSong()">Add Song</button>
+
+    <div id="playlist"></div>
+
+    <script>
+        const songs = [
+            "Blinding Lights",
+            "Shape of You",
+            "Perfect",
+            "Levitating",
+            "Believer"
+        ];
+
+        function addSong() {
+            const randomSong = songs[Math.floor(Math.random() * songs.length)];
+
+            const card = document.createElement("div");
+            card.innerHTML = "🎵 " + randomSong;
+            card.style.padding = "15px";
+            card.style.margin = "10px 0";
+            card.style.border = "1px solid black";
+            card.style.width = "250px";
+
+            document.getElementById("playlist").appendChild(card);
+        }
+    </script>
+
+</body>
+</html>

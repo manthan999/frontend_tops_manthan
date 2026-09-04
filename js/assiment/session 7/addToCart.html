@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add to Cart</title>
+</head>
+<body>
+
+    <h2>🛒 My Shopping Cart</h2>
+
+    <p>Product: Pizza</p>
+    <button id="addBtn">Add to Cart</button>
+
+    <h3>Cart:</h3>
+    <ul id="cart"></ul>
+
+    <script>
+        function addToCart() {
+            let productName = "Pizza";
+
+            let cart = document.querySelector("#cart");
+
+            let item = document.createElement("li");
+            item.innerText = productName;
+
+            cart.appendChild(item);
+        }
+
+        let button = document.querySelector("#addBtn");
+
+        button.addEventListener("click", addToCart);
+    </script>
+
+</body>
+</html> 

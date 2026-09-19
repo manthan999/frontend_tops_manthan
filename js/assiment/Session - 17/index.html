@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 17 - Event Delegation</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .section {
+        background: white;
+        padding: 25px;
+        margin-bottom: 25px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      h2 {
+        margin-bottom: 18px;
+      }
+
+      button {
+        border: none;
+        border-radius: 6px;
+        padding: 10px 18px;
+        cursor: pointer;
+        background: #222;
+        color: white;
+        font-size: 14px;
+      }
+
+      button:hover {
+        background: #444;
+      }
+
+      .add-btn {
+        margin-bottom: 20px;
+      }
+
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+
+      .card-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .card-title {
+        font-weight: bold;
+      }
+
+      .remove-btn {
+        background: #d33;
+      }
+
+      .remove-btn:hover {
+        background: #a22;
+      }
+
+      .notification {
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .notification.fade-out {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+
+      .empty {
+        color: #777;
+        padding: 15px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Session 17 - Event Delegation</h1>
+
+      <p class="subtitle">
+        Event Bubbling, Event Delegation and Dynamic UI Updates
+      </p>
+
+      <div class="section">
+        <h2>Tasks 1 & 2 - Song Cards</h2>
+
+        <div class="list" id="songList">
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Blinding Lights</span>
+              <span>The Weeknd</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Perfect</span>
+              <span>Ed Sheeran</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Believer</span>
+              <span>Imagine Dragons</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Faded</span>
+              <span>Alan Walker</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Task 3 - Favorite Songs</h2>
+
+        <div class="list" id="favoriteSongs">
+          <div class="card">
+            <span class="card-title">Shape of You</span>
+            <button class="remove-btn">Remove</button>
+          </div>
+
+          <div class="card">
+            <span class="card-title">Let Me Down Slowly</span>
+            <button class="remove-btn">Remove</button>
+          </div>
+
+          <div class="card">
+            <span class="card-title">Dusk Till Dawn</span>
+            <button class="remove-btn">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Tasks 4 & 5 - Dynamic Wishlist</h2>
+
+        <button class="add-btn" id="addProduct">Add Product</button>
+
+        <div class="list" id="wishlist">
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Nike Shoes</span>
+              <span>₹2999</span>
+            </div>
+            <button class="remove-btn">Remove</button>
+          </div>
+
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Smart Watch</span>
+              <span>₹4999</span>
+            </div>
+            <button class="remove-btn">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Task 6 - Shopping Cart</h2>
+
+        <div class="list" id="shoppingCart">
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Laptop</span>
+              <span>₹55000</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Keyboard</span>
+              <span>₹1500</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Mouse</span>
+              <span>₹800</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Tasks 7 & 8 - Instagram Stories</h2>
+
+        <div class="list" id="instagramStories">
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Travel Story</span>
+              <span>Today</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Food Story</span>
+              <span>2 hours ago</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Coding Story</span>
+              <span>5 hours ago</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Task 9 - Dynamic Notifications</h2>
+
+        <button class="add-btn" id="addNotification">Add Notification</button>
+
+        <div class="list" id="notifications">
+          <div class="card notification">
+            <div class="card-info">
+              <span class="card-title">New Subscriber</span>
+              <span>You have a new subscriber.</span>
+            </div>
+            <button class="remove-btn">Dismiss</button>
+          </div>
+
+          <div class="card notification">
+            <div class="card-info">
+              <span class="card-title">New Video</span>
+              <span>A new video is available.</span>
+            </div>
+            <button class="remove-btn">Dismiss</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Task 10 - YouTube Notifications</h2>
+
+        <div class="list" id="youtubeNotifications">
+          <div class="card notification">
+            <div class="card-info">
+              <span class="card-title">Channel Update</span>
+              <span>New content from your channel.</span>
+            </div>
+            <button class="remove-btn">Dismiss</button>
+          </div>
+
+          <div class="card notification">
+            <div class="card-info">
+              <span class="card-title">Live Stream</span>
+              <span>A channel has started a live stream.</span>
+            </div>
+            <button class="remove-btn">Dismiss</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Task 11 & 12 - Dynamic Cards</h2>
+
+        <button class="add-btn" id="addDynamicCard">Add Dynamic Card</button>
+
+        <div class="list" id="dynamicCards">
+          <div class="card">
+            <div class="card-info">
+              <span class="card-title">Dynamic Card 1</span>
+              <span>This card can be removed.</span>
+            </div>
+            <button class="remove-btn">X</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const songList = document.getElementById("songList");
+
+      songList.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-btn")) {
+          const card = event.target.closest(".card");
+
+          card.remove();
+        }
+      });
+
+      const favoriteSongs = document.getElementById("favoriteSongs");
+
+      favoriteSongs.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-btn")) {
+          const card = event.target.closest(".card");
+
+          card.remove();
+        }
+      });
+
+      const wishlist = document.getElementById("wishlist");
+
+      const addProduct = document.getElementById("addProduct");
+
+      let productNumber = 3;
+
+      addProduct.addEventListener("click", function () {
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML =
+          "<div class='card-info'>" +
+          "<span class='card-title'>Product " +
+          productNumber +
+          "</span>" +
+          "<span>₹1999</span>" +
+          "</div>" +
+          "<button class='remove-btn'>Remove</button>";
+
+        wishlist.appendChild(card);
+
+        productNumber++;
+      });
+
+      wishlist.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-btn")) {
+          const card = event.target.closest(".card");
+
+          card.remove();
+        }
+      });
+
+      const shoppingCart = document.getElementById("shoppingCart");
+
+      shoppingCart.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-btn")) {
+          const card = event.target.closest(".card");
+
+          card.remove();
+        }
+      });
+
+      const instagramStories = document.getElementById("instagramStories");
+
+      instagramStories.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-btn")) {
+          const card = event.target.closest(".card");
+
+          card.remove();
+        }
+      });
+
+      const notifications = document.getElementById("notifications");
+
+      const addNotification = document.getElementById("addNotification");
+
+      let notificationNumber = 3;
+
+      addNotification.addEventListener("click", function () {
+        const card = document.createElement("div");
+
+        card.className = "card notification";
+
+        card.innerHTML =
+          "<div class='card-info'>" +
+          "<span class='card-title'>Notification " +
+          notificationNumber +
+          "</span>" +
+          "<span>This is a dynamically added notification.</span>" +
+          "</div>" +
+          "<button class='remove-btn'>Dismiss</button>";
+
+        notifications.appendChild(card);
+
+        notificationNumber++;
+      });
+
+      notifications.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-btn")) {
+          const card = event.target.closest(".notification");
+
+          card.classList.add("fade-out");
+
+          setTimeout(function () {
+            card.remove();
+          }, 400);
+        }
+      });
+
+      const youtubeNotifications = document.getElementById(
+        "youtubeNotifications",
+      );
+
+      youtubeNotifications.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-btn")) {
+          const card = event.target.closest(".notification");
+
+          card.classList.add("fade-out");
+
+          setTimeout(function () {
+            card.remove();
+          }, 400);
+        }
+      });
+
+      const dynamicCards = document.getElementById("dynamicCards");
+
+      const addDynamicCard = document.getElementById("addDynamicCard");
+
+      let dynamicCardNumber = 2;
+
+      addDynamicCard.addEventListener("click", function () {
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML =
+          "<div class='card-info'>" +
+          "<span class='card-title'>Dynamic Card " +
+          dynamicCardNumber +
+          "</span>" +
+          "<span>This card was added dynamically.</span>" +
+          "</div>" +
+          "<button class='remove-btn'>X</button>";
+
+        dynamicCards.appendChild(card);
+
+        dynamicCardNumber++;
+      });
+
+      dynamicCards.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-btn")) {
+          const card = event.target.closest(".card");
+
+          card.remove();
+        }
+      });
+
+      console.log("Session 17 loaded successfully");
+    </script>
+  </body>
+</html>

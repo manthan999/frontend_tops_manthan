@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 14 - Modular JavaScript</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      p {
+        text-align: center;
+        color: #666;
+        margin-bottom: 25px;
+      }
+
+      .card {
+        padding: 20px;
+        margin-bottom: 15px;
+        background: #f8f8f8;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+      }
+
+      h2 {
+        margin-bottom: 10px;
+      }
+
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        background: #222;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #444;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Session 14 - Modular JavaScript</h1>
+
+      <p>Open the browser console to see all task outputs.</p>
+
+      <button onclick="location.reload()">Run Assignment</button>
+
+      <div class="card">
+        <h2>Task 1 & 2</h2>
+        <p>Order ID generation using named export.</p>
+      </div>
+
+      <div class="card">
+        <h2>Task 3 - 6</h2>
+        <p>Price, discount and Spotify utility functions.</p>
+      </div>
+
+      <div class="card">
+        <h2>Task 7 & 8</h2>
+        <p>Instagram follower formatting using default export.</p>
+      </div>
+
+      <div class="card">
+        <h2>Task 10 & 11</h2>
+        <p>Shopping cart utility functions.</p>
+      </div>
+
+      <div class="card">
+        <h2>Task 12</h2>
+        <p>Wishlist utility functions.</p>
+      </div>
+    </div>
+
+    <script type="module" src="./order.js"></script>
+    <script type="module" src="./main.js"></script>
+    <script type="module" src="./profile.js"></script>
+    <script type="module" src="./wishlist.js"></script>
+  </body>
+</html>

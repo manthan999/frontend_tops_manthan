@@ -1,0 +1,1201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Social Bio Link Builder</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #7c3aed;
+        --primary-dark: #5b21b6;
+        --secondary: #ec4899;
+        --success: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --text: #111827;
+        --muted: #6b7280;
+        --bg: #f3f4f6;
+        --card: #ffffff;
+        --border: #e5e7eb;
+        --input: #ffffff;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      body.dark-mode {
+        --text: #f9fafb;
+        --muted: #9ca3af;
+        --bg: #111827;
+        --card: #1f2937;
+        --border: #374151;
+        --input: #111827;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        transition: 0.3s;
+      }
+
+      .navbar {
+        height: 70px;
+        background: var(--card);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .nav-inner {
+        width: min(1150px, 92%);
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        font-size: 23px;
+        font-weight: 800;
+      }
+
+      .logo span {
+        color: var(--primary);
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .icon-btn {
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #7c3aed, #ec4899);
+        color: white;
+        padding: 60px 20px;
+      }
+
+      .hero-inner {
+        width: min(1150px, 92%);
+        margin: auto;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 45px;
+        margin-bottom: 15px;
+      }
+
+      .hero p {
+        max-width: 700px;
+        margin: auto;
+        line-height: 1.7;
+        color: #f9fafb;
+      }
+
+      .container {
+        width: min(1150px, 92%);
+        margin: 35px auto;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 25px;
+        align-items: start;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: var(--shadow);
+      }
+
+      .card h2 {
+        font-size: 21px;
+        margin-bottom: 8px;
+      }
+
+      .description {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 22px;
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid var(--border);
+        background: var(--input);
+        color: var(--text);
+        border-radius: 9px;
+        outline: none;
+        font-size: 14px;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: var(--primary);
+      }
+
+      .error {
+        min-height: 18px;
+        color: var(--danger);
+        font-size: 12px;
+        margin-top: 6px;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 12px 18px;
+        border: none;
+        border-radius: 9px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 14px;
+        transition: 0.2s;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+
+      .btn-secondary {
+        background: #e5e7eb;
+        color: #111827;
+      }
+
+      body.dark-mode .btn-secondary {
+        background: #374151;
+        color: white;
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        color: white;
+      }
+
+      .btn-warning {
+        background: var(--warning);
+        color: white;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 25px;
+      }
+
+      .stat {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        padding: 18px;
+        text-align: center;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 25px;
+        color: var(--primary);
+        margin-bottom: 5px;
+      }
+
+      .stat span {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .links-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .links-count {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .links-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .link-item {
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        background: var(--card);
+      }
+
+      .link-info {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        min-width: 0;
+      }
+
+      .platform-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ede9fe;
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+
+      .link-details {
+        min-width: 0;
+      }
+
+      .link-details h3 {
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+
+      .link-details a {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        text-decoration: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 380px;
+      }
+
+      .link-actions {
+        display: flex;
+        gap: 7px;
+        flex-shrink: 0;
+      }
+
+      .small-btn {
+        border: none;
+        padding: 8px 11px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .edit-btn {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .delete-btn {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .preview-card {
+        position: sticky;
+        top: 95px;
+      }
+
+      .profile {
+        text-align: center;
+      }
+
+      .avatar {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #7c3aed, #ec4899);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-size: 31px;
+        font-weight: 800;
+      }
+
+      .profile h2 {
+        margin-bottom: 7px;
+      }
+
+      .profile p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 22px;
+      }
+
+      .preview-links {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+      }
+
+      .preview-link {
+        display: block;
+        padding: 14px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: var(--text);
+        background: var(--bg);
+        border: 1px solid var(--border);
+        font-weight: 700;
+        font-size: 14px;
+        transition: 0.2s;
+      }
+
+      .preview-link:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .empty {
+        text-align: center;
+        padding: 35px 15px;
+        border: 1px dashed var(--border);
+        border-radius: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .info-section {
+        margin-top: 25px;
+      }
+
+      .validation-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .validation-box {
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+      }
+
+      .validation-box strong {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+
+      .validation-box span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .valid {
+        color: var(--success);
+      }
+
+      .invalid {
+        color: var(--danger);
+      }
+
+      .footer {
+        margin-top: 50px;
+        background: var(--card);
+        border-top: 1px solid var(--border);
+        padding: 25px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .toast {
+        position: fixed;
+        right: 25px;
+        bottom: 25px;
+        padding: 14px 20px;
+        border-radius: 9px;
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+        display: none;
+        z-index: 1000;
+        box-shadow: var(--shadow);
+      }
+
+      .toast.success {
+        background: var(--success);
+      }
+
+      .toast.error {
+        background: var(--danger);
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .preview-card {
+          position: static;
+        }
+      }
+
+      @media (max-width: 650px) {
+        .hero h1 {
+          font-size: 32px;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .validation-list {
+          grid-template-columns: 1fr;
+        }
+
+        .link-item {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .link-info {
+          width: 100%;
+        }
+
+        .link-actions {
+          width: 100%;
+        }
+
+        .small-btn {
+          flex: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="nav-inner">
+        <div class="logo">Bio<span>Builder</span></div>
+
+        <div class="nav-actions">
+          <button class="icon-btn" id="themeBtn" title="Toggle theme">
+            🌙
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Interactive Social Bio Link Builder</h1>
+
+        <p>
+          Add your Spotify, YouTube, Instagram and other social links in one
+          place. Edit, delete and save your links automatically using
+          LocalStorage.
+        </p>
+      </div>
+    </section>
+
+    <main class="container">
+      <div class="stats">
+        <div class="stat">
+          <strong id="totalLinks"> 0 </strong>
+          <span> Total Links </span>
+        </div>
+
+        <div class="stat">
+          <strong id="socialLinks"> 0 </strong>
+          <span> Social Links </span>
+        </div>
+
+        <div class="stat">
+          <strong id="musicLinks"> 0 </strong>
+          <span> Music / Video </span>
+        </div>
+      </div>
+
+      <div class="layout">
+        <div>
+          <section class="card">
+            <h2 id="formTitle">Add New Link</h2>
+
+            <p class="description">
+              Add a social, music or video profile link. Only valid HTTPS URLs
+              are accepted.
+            </p>
+
+            <form id="linkForm">
+              <div class="form-group">
+                <label for="platform"> Platform </label>
+
+                <select id="platform">
+                  <option value="Instagram">Instagram</option>
+
+                  <option value="Spotify">Spotify</option>
+
+                  <option value="YouTube">YouTube</option>
+
+                  <option value="GitHub">GitHub</option>
+
+                  <option value="LinkedIn">LinkedIn</option>
+
+                  <option value="Website">Website</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="linkTitle"> Link Title </label>
+
+                <input
+                  type="text"
+                  id="linkTitle"
+                  placeholder="e.g. My Instagram"
+                />
+
+                <div class="error" id="titleError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="linkUrl"> Profile / Link URL </label>
+
+                <input
+                  type="text"
+                  id="linkUrl"
+                  placeholder="https://instagram.com/username"
+                />
+
+                <div class="error" id="urlError"></div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                  Add Link
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="cancelBtn"
+                  style="display: none"
+                >
+                  Cancel Edit
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <section class="card info-section">
+            <div class="links-header">
+              <div>
+                <h2>My Links</h2>
+
+                <span class="links-count" id="linksCount"> 0 links </span>
+              </div>
+
+              <button class="btn btn-danger" id="clearBtn">Clear All</button>
+            </div>
+
+            <div class="links-list" id="linksList"></div>
+          </section>
+
+          <section class="card info-section">
+            <h2>URL Validation</h2>
+
+            <p class="description">
+              The application validates HTTPS URLs and checks platform-specific
+              links before saving.
+            </p>
+
+            <div class="validation-list">
+              <div class="validation-box">
+                <strong> General URL </strong>
+
+                <span>
+                  Must start with
+                  <b>https://</b>
+                </span>
+              </div>
+
+              <div class="validation-box">
+                <strong> Instagram </strong>
+
+                <span> Must contain instagram.com </span>
+              </div>
+
+              <div class="validation-box">
+                <strong> Spotify </strong>
+
+                <span> Must contain spotify.com </span>
+              </div>
+
+              <div class="validation-box">
+                <strong> YouTube </strong>
+
+                <span> Must contain youtube.com or youtu.be </span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside>
+          <section class="card preview-card">
+            <div class="profile">
+              <div class="avatar">M</div>
+
+              <h2>Mohit Sharma</h2>
+
+              <p>
+                JavaScript Developer • Music Lover
+                <br />
+                Building cool things with code 🚀
+              </p>
+            </div>
+
+            <div class="preview-links" id="previewLinks"></div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <footer class="footer">
+      Interactive Social Bio Link Builder • Mini Project 7
+    </footer>
+
+    <script>
+      const STORAGE_KEY = "myPlaylists";
+
+      const THEME_KEY = "bioTheme";
+
+      let links = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+      let editingIndex = -1;
+
+      const linkForm = document.getElementById("linkForm");
+
+      const platformInput = document.getElementById("platform");
+
+      const titleInput = document.getElementById("linkTitle");
+
+      const urlInput = document.getElementById("linkUrl");
+
+      const titleError = document.getElementById("titleError");
+
+      const urlError = document.getElementById("urlError");
+
+      const linksList = document.getElementById("linksList");
+
+      const previewLinks = document.getElementById("previewLinks");
+
+      const submitBtn = document.getElementById("submitBtn");
+
+      const cancelBtn = document.getElementById("cancelBtn");
+
+      const formTitle = document.getElementById("formTitle");
+
+      function saveLinks() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+      }
+
+      function validateURL(url) {
+        return url.startsWith("https://") && url.includes(".");
+      }
+
+      function validateInstagramURL(url) {
+        return url.startsWith("https://") && url.includes("instagram.com");
+      }
+
+      function validatePlatformURL(platform, url) {
+        if (!validateURL(url)) {
+          return false;
+        }
+
+        if (platform === "Instagram") {
+          return validateInstagramURL(url);
+        }
+
+        if (platform === "Spotify") {
+          return url.includes("spotify.com");
+        }
+
+        if (platform === "YouTube") {
+          return url.includes("youtube.com") || url.includes("youtu.be");
+        }
+
+        return true;
+      }
+
+      function showError(element, message) {
+        element.textContent = message;
+      }
+
+      function clearErrors() {
+        titleError.textContent = "";
+
+        urlError.textContent = "";
+      }
+
+      function showToast(message, type) {
+        const toast = document.getElementById("toast");
+
+        toast.textContent = message;
+
+        toast.className = "toast " + type;
+
+        toast.style.display = "block";
+
+        setTimeout(function () {
+          toast.style.display = "none";
+        }, 2500);
+      }
+
+      function getPlatformIcon(platform) {
+        const icons = {
+          Instagram: "📸",
+
+          Spotify: "🎵",
+
+          YouTube: "▶️",
+
+          GitHub: "💻",
+
+          LinkedIn: "💼",
+
+          Website: "🌐",
+        };
+
+        return icons[platform] || "🔗";
+      }
+
+      function manageLink(linkObj, mode, index = -1) {
+        if (mode === "add") {
+          const duplicate = links.some(function (link) {
+            return link.url.toLowerCase() === linkObj.url.toLowerCase();
+          });
+
+          if (duplicate) {
+            showError(urlError, "This URL is already added.");
+
+            return false;
+          }
+
+          links.push(linkObj);
+        }
+
+        if (mode === "edit") {
+          const duplicate = links.some(function (link, i) {
+            return (
+              i !== index &&
+              link.url.toLowerCase() === linkObj.url.toLowerCase()
+            );
+          });
+
+          if (duplicate) {
+            showError(urlError, "This URL is already used.");
+
+            return false;
+          }
+
+          links[index] = linkObj;
+        }
+
+        saveLinks();
+
+        renderLinks();
+
+        return true;
+      }
+
+      function renderLinks() {
+        linksList.innerHTML = "";
+
+        previewLinks.innerHTML = "";
+
+        if (links.length === 0) {
+          linksList.innerHTML = `
+                    <div class="empty">
+                        No links added yet.
+                        Add your first social link above.
+                    </div>
+                    `;
+
+          previewLinks.innerHTML = `
+                    <div class="empty">
+                        Your bio links will appear here.
+                    </div>
+                    `;
+        }
+
+        links.forEach(function (link, index) {
+          const item = document.createElement("div");
+
+          item.className = "link-item";
+
+          item.innerHTML = `
+                    <div class="link-info">
+
+                        <div class="platform-icon">
+                            ${getPlatformIcon(link.platform)}
+                        </div>
+
+                        <div class="link-details">
+
+                            <h3>
+                                ${escapeHTML(link.title)}
+                            </h3>
+
+                            <a
+                                href="${escapeHTML(link.url)}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                ${escapeHTML(link.url)}
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <div class="link-actions">
+
+                        <button
+                            class="small-btn edit-btn"
+                            data-action="edit"
+                            data-index="${index}"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="small-btn delete-btn"
+                            data-action="delete"
+                            data-index="${index}"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+                    `;
+
+          linksList.appendChild(item);
+
+          const preview = document.createElement("a");
+
+          preview.className = "preview-link";
+
+          preview.href = link.url;
+
+          preview.target = "_blank";
+
+          preview.rel = "noopener noreferrer";
+
+          preview.textContent =
+            getPlatformIcon(link.platform) + " " + link.title;
+
+          previewLinks.appendChild(preview);
+        });
+
+        updateStats();
+      }
+
+      function updateStats() {
+        const total = links.length;
+
+        const social = links.filter(function (link) {
+          return (
+            link.platform === "Instagram" ||
+            link.platform === "GitHub" ||
+            link.platform === "LinkedIn"
+          );
+        }).length;
+
+        const music = links.filter(function (link) {
+          return link.platform === "Spotify" || link.platform === "YouTube";
+        }).length;
+
+        document.getElementById("totalLinks").textContent = total;
+
+        document.getElementById("socialLinks").textContent = social;
+
+        document.getElementById("musicLinks").textContent = music;
+
+        document.getElementById("linksCount").textContent =
+          total + (total === 1 ? " link" : " links");
+      }
+
+      function escapeHTML(value) {
+        const div = document.createElement("div");
+
+        div.textContent = value;
+
+        return div.innerHTML;
+      }
+
+      function startEdit(index) {
+        const link = links[index];
+
+        platformInput.value = link.platform;
+
+        titleInput.value = link.title;
+
+        urlInput.value = link.url;
+
+        editingIndex = index;
+
+        formTitle.textContent = "Edit Link";
+
+        submitBtn.textContent = "Update Link";
+
+        cancelBtn.style.display = "inline-block";
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
+      function deleteLink(index) {
+        const removed = links[index];
+
+        links.splice(index, 1);
+
+        saveLinks();
+
+        renderLinks();
+
+        showToast(removed.title + " deleted successfully.", "success");
+
+        if (editingIndex === index) {
+          resetForm();
+        }
+      }
+
+      function resetForm() {
+        linkForm.reset();
+
+        editingIndex = -1;
+
+        formTitle.textContent = "Add New Link";
+
+        submitBtn.textContent = "Add Link";
+
+        cancelBtn.style.display = "none";
+
+        clearErrors();
+      }
+
+      linkForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        clearErrors();
+
+        const platform = platformInput.value;
+
+        const title = titleInput.value.trim();
+
+        const url = urlInput.value.trim();
+
+        let valid = true;
+
+        if (!title) {
+          showError(titleError, "Link title is required.");
+
+          valid = false;
+        }
+
+        if (!url) {
+          showError(urlError, "URL is required.");
+
+          valid = false;
+        } else if (!validateURL(url)) {
+          showError(
+            urlError,
+            "URL must start with https:// and contain a valid domain.",
+          );
+
+          valid = false;
+        } else if (!validatePlatformURL(platform, url)) {
+          if (platform === "Instagram") {
+            showError(urlError, "Please enter a valid Instagram URL.");
+          } else if (platform === "Spotify") {
+            showError(urlError, "Please enter a valid Spotify URL.");
+          } else if (platform === "YouTube") {
+            showError(urlError, "Please enter a valid YouTube URL.");
+          } else {
+            showError(urlError, "Invalid platform URL.");
+          }
+
+          valid = false;
+        }
+
+        if (!valid) {
+          return;
+        }
+
+        const linkObj = {
+          platform: platform,
+
+          title: title,
+
+          url: url,
+        };
+
+        const mode = editingIndex === -1 ? "add" : "edit";
+
+        const saved = manageLink(linkObj, mode, editingIndex);
+
+        if (!saved) {
+          return;
+        }
+
+        showToast(
+          mode === "add"
+            ? "Link added successfully."
+            : "Link updated successfully.",
+          "success",
+        );
+
+        resetForm();
+      });
+
+      linksList.addEventListener("click", function (event) {
+        const button = event.target.closest("button");
+
+        if (!button) {
+          return;
+        }
+
+        const action = button.dataset.action;
+
+        const index = Number(button.dataset.index);
+
+        if (action === "edit") {
+          startEdit(index);
+        }
+
+        if (action === "delete") {
+          deleteLink(index);
+        }
+      });
+
+      cancelBtn.addEventListener("click", function () {
+        resetForm();
+      });
+
+      document
+        .getElementById("clearBtn")
+        .addEventListener("click", function () {
+          if (links.length === 0) {
+            showToast("There are no links to clear.", "error");
+
+            return;
+          }
+
+          const confirmed = confirm(
+            "Are you sure you want to delete all links?",
+          );
+
+          if (!confirmed) {
+            return;
+          }
+
+          links = [];
+
+          saveLinks();
+
+          renderLinks();
+
+          resetForm();
+
+          showToast("All links deleted.", "success");
+        });
+
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+
+        const isDark = document.body.classList.contains("dark-mode");
+
+        localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+
+        document.getElementById("themeBtn").textContent = isDark ? "☀️" : "🌙";
+      }
+
+      document
+        .getElementById("themeBtn")
+        .addEventListener("click", toggleTheme);
+
+      function loadTheme() {
+        const savedTheme = localStorage.getItem(THEME_KEY);
+
+        if (savedTheme === "dark") {
+          document.body.classList.add("dark-mode");
+
+          document.getElementById("themeBtn").textContent = "☀️";
+        }
+      }
+
+      loadTheme();
+
+      renderLinks();
+    </script>
+  </body>
+</html>

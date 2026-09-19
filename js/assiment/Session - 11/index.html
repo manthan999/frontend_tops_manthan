@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 11 - Asynchronous JavaScript</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 40px;
+        background: #f4f4f4;
+        color: #222;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .card {
+        background: #eee;
+        padding: 15px;
+        margin: 12px 0;
+        border-radius: 8px;
+      }
+
+      .loading {
+        font-weight: bold;
+        padding: 15px;
+        background: #ddd;
+        border-radius: 8px;
+      }
+
+      button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 5px;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin: 5px;
+      }
+
+      pre {
+        background: #222;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Session 11: Asynchronous JavaScript</h1>
+
+      <div class="card">
+        <strong>Topics:</strong>
+        setTimeout(), Callbacks, Promises, then(), catch(), resolve(), reject()
+        and asynchronous execution.
+      </div>
+
+      <div class="card">
+        <strong>Open F12 → Console</strong> to see all task outputs.
+      </div>
+
+      <!-- Task 1 -->
+      <div class="card">
+        <div id="feedStatus" class="loading">Waiting...</div>
+      </div>
+
+      <!-- Task 3 -->
+      <div class="card">
+        <p>Check the browser console.</p>
+      </div>
+
+      <!-- Task 7 -->
+      <div class="card">
+        <div id="followersOutput">Loading followers...</div>
+      </div>
+
+      <!-- Task 10/11 -->
+      <div class="card">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search product e.g. phone"
+        />
+        <button id="searchBtn">Search</button>
+        <div id="productOutput"></div>
+      </div>
+
+      <!-- Task 12 -->
+      <div class="card">
+        <div id="paymentOutput">Waiting for payment...</div>
+      </div>
+    </div>
+
+    <script>
+      const feedStatus = document.getElementById("feedStatus");
+
+      setTimeout(() => {
+        feedStatus.textContent = "Loading your feed...";
+
+        console.log("Task 1: Loading your feed...");
+
+        setTimeout(() => {
+          feedStatus.textContent = "Feed loaded!";
+
+          console.log("Task 1: Feed loaded!");
+        }, 2000);
+      }, 2000);
+
+      console.log("Loading...");
+
+      setTimeout(() => {
+        console.log("Content loaded!");
+      }, 2000);
+
+      function placeOrder(foodItem, callback) {
+        console.log(`Placing order for ${foodItem}...`);
+
+        setTimeout(() => {
+          callback(`Your ${foodItem} is being prepared.`);
+        }, 1000);
+      }
+
+      placeOrder("Pizza", (message) => {
+        console.log(message);
+      });
+
+      // Another callback example.
+      placeOrder("Burger", (message) => {
+        console.log(message);
+      });
+
+      function fetchSongLyrics(song, callback) {
+        console.log(`Fetching lyrics for "${song}"...`);
+
+        setTimeout(() => {
+          const lyrics = `Lyrics for "${song}": La la la...`;
+
+          callback(lyrics);
+        }, 1500);
+      }
+
+      fetchSongLyrics("Kesariya", (lyrics) => {
+        console.log(lyrics);
+      });
+
+      function getFollowersCount() {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const followers = Math.floor(Math.random() * 4001) + 1000;
+
+            resolve(followers);
+          }, 1000);
+        });
+      }
+
+      getFollowersCount().then((followers) => {
+        console.log(`You have ${followers} new followers.`);
+
+        document.getElementById("followersOutput").textContent =
+          `You have ${followers} new followers.`;
+      });
+
+      getFollowersCount().then((followers) => {
+        console.log("Task 8:", `You have ${followers} new followers.`);
+      });
+
+      function getOrderStatus(orderId) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (orderId % 2 === 0) {
+              resolve("Order delivered");
+            } else {
+              reject("Order not found");
+            }
+          }, 1500);
+        });
+      }
+
+      // Even order -> success.
+      getOrderStatus(102)
+        .then((message) => {
+          console.log("Order 102:", message);
+        })
+        .catch((error) => {
+          console.log("Order 102:", error);
+        });
+
+      // Odd order -> failure.
+      getOrderStatus(101)
+        .then((message) => {
+          console.log("Order 101:", message);
+        })
+        .catch((error) => {
+          console.log("Order 101:", error);
+        });
+
+      const products = [
+        {
+          name: "iPhone 15",
+          price: 65000,
+        },
+        {
+          name: "Samsung Phone",
+          price: 45000,
+        },
+        {
+          name: "Laptop",
+          price: 55000,
+        },
+        {
+          name: "Wireless Headphones",
+          price: 7999,
+        },
+        {
+          name: "Phone Cover",
+          price: 499,
+        },
+      ];
+
+      function searchProductsCallback(searchTerm, callback) {
+        setTimeout(() => {
+          const results = products.filter((product) =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()),
+          );
+
+          callback(results);
+        }, 1000);
+      }
+
+      function searchProductsPromise(searchTerm) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const results = products.filter((product) =>
+              product.name.toLowerCase().includes(searchTerm.toLowerCase()),
+            );
+
+            resolve(results);
+          }, 1000);
+        });
+      }
+
+      // Demonstrate callback version.
+      searchProductsCallback("phone", (results) => {
+        console.log("Callback search results:", results);
+      });
+
+      // Demonstrate Promise version.
+      searchProductsPromise("phone").then((results) => {
+        console.log("Promise search results:", results);
+      });
+
+      const searchInput = document.getElementById("searchInput");
+
+      const searchBtn = document.getElementById("searchBtn");
+
+      const productOutput = document.getElementById("productOutput");
+
+      searchBtn.addEventListener("click", () => {
+        const searchTerm = searchInput.value.trim();
+
+        if (searchTerm === "") {
+          productOutput.innerHTML = "<p>Please enter a product name.</p>";
+
+          return;
+        }
+
+        productOutput.innerHTML = "<p>Searching products...</p>";
+
+        searchProductsPromise(searchTerm).then((results) => {
+          if (results.length === 0) {
+            productOutput.innerHTML = "<p>No products found.</p>";
+
+            return;
+          }
+
+          productOutput.innerHTML = "";
+
+          results.forEach((product) => {
+            const div = document.createElement("div");
+
+            div.className = "card";
+
+            div.innerHTML = `
+              <strong>${product.name}</strong><br>
+              Price: ₹${product.price}
+            `;
+
+            productOutput.appendChild(div);
+          });
+        });
+      });
+
+      function processPayment() {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve("Payment successful!");
+          }, 1000);
+        });
+      }
+
+      processPayment().then((message) => {
+        console.log(message);
+
+        document.getElementById("paymentOutput").textContent = message;
+      });
+
+      console.log("1. Start");
+
+      setTimeout(() => {
+        console.log("3. This runs later because setTimeout is non-blocking.");
+      }, 0);
+
+      console.log("2. End - JavaScript continues without waiting.");
+
+      console.log(
+        "Callbacks, Promises, setTimeout(), then() and catch() demonstrated.",
+      );
+    </script>
+  </body>
+</html>

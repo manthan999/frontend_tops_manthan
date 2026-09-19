@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 16 - Advanced Array Methods</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background: white;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      h2 {
+        margin-bottom: 15px;
+      }
+
+      .result {
+        background: #f1f1f1;
+        padding: 15px;
+        border-radius: 8px;
+        line-height: 1.8;
+        word-break: break-word;
+      }
+
+      button {
+        display: block;
+        margin: 0 auto 30px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        background: #222;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #444;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Session 16 - Advanced Array Methods</h1>
+
+      <p class="subtitle">
+        map(), filter(), reduce(), find(), some() and every()
+      </p>
+
+      <button onclick="runAssignment()">Run Assignment</button>
+
+      <div class="card">
+        <h2>Tasks 1 & 2 - Products In Stock</h2>
+        <div class="result" id="stockResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Task 3 - Spotify Public Playlists</h2>
+        <div class="result" id="playlistResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Tasks 4 & 5 - Instagram Likes</h2>
+        <div class="result" id="likesResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Task 6 - Product Strings</h2>
+        <div class="result" id="productStringResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Tasks 7, 8 & 9 - Total Clicks and Likes</h2>
+        <div class="result" id="totalResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Tasks 10 & 11 - YouTube Videos</h2>
+        <div class="result" id="youtubeResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Task 12 - Zomato Restaurant</h2>
+        <div class="result" id="restaurantResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Tasks 13, 14 & 15 - One-Liner Alternatives</h2>
+        <div class="result" id="oneLinerResult"></div>
+      </div>
+    </div>
+
+    <script>
+      const products = [
+        {
+          name: "Shoes",
+          price: 2000,
+          inStock: true,
+        },
+        {
+          name: "Shirt",
+          price: 1200,
+          inStock: false,
+        },
+        {
+          name: "Watch",
+          price: 3500,
+          inStock: true,
+        },
+        {
+          name: "Bag",
+          price: 1800,
+          inStock: true,
+        },
+      ];
+
+      const spotifyPlaylists = [
+        {
+          name: "Chill Vibes",
+          isPublic: true,
+        },
+        {
+          name: "Workout Hits",
+          isPublic: false,
+        },
+        {
+          name: "Road Trip",
+          isPublic: true,
+        },
+        {
+          name: "Private Mix",
+          isPublic: false,
+        },
+      ];
+
+      const instagramPosts = [
+        {
+          id: 1,
+          title: "Travel",
+          likes: 1200,
+        },
+        {
+          id: 2,
+          title: "Food",
+          likes: 2500,
+        },
+        {
+          id: 3,
+          title: "Coding",
+          likes: 1800,
+        },
+        {
+          id: 4,
+          title: "Fitness",
+          likes: 3200,
+        },
+      ];
+
+      const flipkartProducts = [
+        {
+          name: "Shoes",
+          price: 2000,
+        },
+        {
+          name: "Headphones",
+          price: 1500,
+        },
+        {
+          name: "Smart Watch",
+          price: 3000,
+        },
+      ];
+
+      const zomatoOrders = [
+        {
+          orderId: 101,
+          clicks: 150,
+        },
+        {
+          orderId: 102,
+          clicks: 250,
+        },
+        {
+          orderId: 103,
+          clicks: 300,
+        },
+        {
+          orderId: 104,
+          clicks: 200,
+        },
+      ];
+
+      const youtubeVideos = [
+        {
+          title: "JavaScript Tutorial",
+          views: 500000,
+        },
+        {
+          title: "HTML Complete Course",
+          views: 1500000,
+        },
+        {
+          title: "CSS Tutorial",
+          views: 800000,
+        },
+        {
+          title: "React Full Course",
+          views: 2500000,
+        },
+      ];
+
+      const restaurants = [
+        {
+          name: "Spice Garden",
+          cuisine: "Indian",
+        },
+        {
+          name: "Dragon House",
+          cuisine: "Chinese",
+        },
+        {
+          name: "Pizza Palace",
+          cuisine: "Italian",
+        },
+        {
+          name: "Wok Express",
+          cuisine: "Chinese",
+        },
+      ];
+
+      const transactions = [
+        {
+          id: 1,
+          amount: 500,
+        },
+        {
+          id: 2,
+          amount: 1200,
+        },
+        {
+          id: 3,
+          amount: 800,
+        },
+        {
+          id: 4,
+          amount: 1500,
+        },
+      ];
+
+      const myntraCart = [
+        {
+          name: "T-Shirt",
+          price: 799,
+        },
+        {
+          name: "Jeans",
+          price: 1499,
+        },
+        {
+          name: "Shoes",
+          price: 2499,
+        },
+      ];
+
+      function runAssignment() {
+        const inStockProducts = products.filter(function (product) {
+          return product.inStock;
+        });
+
+        console.log("Tasks 1 & 2");
+        console.log(inStockProducts);
+
+        document.getElementById("stockResult").innerHTML = inStockProducts
+          .map(function (product) {
+            return product.name;
+          })
+          .join(", ");
+
+        const publicPlaylists = spotifyPlaylists.filter(function (playlist) {
+          return playlist.isPublic;
+        });
+
+        console.log("Task 3");
+        console.log(publicPlaylists);
+
+        document.getElementById("playlistResult").innerHTML = publicPlaylists
+          .map(function (playlist) {
+            return playlist.name;
+          })
+          .join(", ");
+
+        const likeCounts = instagramPosts.map(function (post) {
+          return post.likes;
+        });
+
+        console.log("Tasks 4 & 5");
+        console.log(likeCounts);
+
+        document.getElementById("likesResult").innerHTML =
+          likeCounts.join(", ");
+
+        const productStrings = flipkartProducts.map(function (product) {
+          return "Product: " + product.name + ", Price: ₹" + product.price;
+        });
+
+        console.log("Task 6");
+        console.log(productStrings);
+
+        document.getElementById("productStringResult").innerHTML =
+          productStrings.join("<br>");
+
+        const totalClicks = zomatoOrders.reduce(function (total, order) {
+          return total + order.clicks;
+        }, 0);
+
+        console.log("Tasks 7 & 8");
+        console.log("Total Clicks:", totalClicks);
+
+        const totalLikes = instagramPosts.reduce(function (total, post) {
+          return total + post.likes;
+        }, 0);
+
+        console.log("Task 9");
+        console.log("Total Likes:", totalLikes);
+
+        document.getElementById("totalResult").innerHTML =
+          "<strong>Total Clicks:</strong> " +
+          totalClicks +
+          "<br>" +
+          "<strong>Total Likes:</strong> " +
+          totalLikes;
+
+        const popularVideo = youtubeVideos.find(function (video) {
+          return video.views > 1000000;
+        });
+
+        console.log("Tasks 10 & 11");
+        console.log(popularVideo);
+
+        document.getElementById("youtubeResult").innerHTML =
+          popularVideo.title +
+          " - " +
+          popularVideo.views.toLocaleString() +
+          " views";
+
+        const chineseRestaurant = restaurants.find(function (restaurant) {
+          return restaurant.cuisine === "Chinese";
+        });
+
+        console.log("Task 12");
+        console.log(chineseRestaurant);
+
+        document.getElementById("restaurantResult").innerHTML =
+          chineseRestaurant.name + " - " + chineseRestaurant.cuisine;
+
+        const myntraTotal = myntraCart.reduce(
+          (total, item) => total + item.price,
+          0,
+        );
+
+        const transactionTotal = transactions.reduce(
+          (total, transaction) => total + transaction.amount,
+          0,
+        );
+
+        console.log("Task 13");
+        console.log("Myntra Cart Total:", myntraTotal);
+
+        console.log("Task 14");
+        console.log("Transaction Total:", transactionTotal);
+
+        const allProductsInStock = products.every((product) => product.inStock);
+
+        const anyProductOutOfStock = products.some(
+          (product) => !product.inStock,
+        );
+
+        console.log("Additional Array Methods");
+        console.log("Every product in stock:", allProductsInStock);
+        console.log("Any product out of stock:", anyProductOutOfStock);
+
+        document.getElementById("oneLinerResult").innerHTML =
+          "<strong>Myntra Cart Total:</strong> ₹" +
+          myntraTotal +
+          "<br>" +
+          "<strong>Transaction Total:</strong> ₹" +
+          transactionTotal +
+          "<br>" +
+          "<strong>Every product in stock:</strong> " +
+          allProductsInStock +
+          "<br>" +
+          "<strong>Any product out of stock:</strong> " +
+          anyProductOutOfStock;
+
+        console.log("Task 15");
+
+        console.log(
+          "Total Amount Spent:",
+          transactions.reduce(
+            (total, transaction) => total + transaction.amount,
+            0,
+          ),
+        );
+      }
+
+      runAssignment();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 18 - Debugging & Developer Tools</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .section {
+        background: white;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      h2 {
+        margin-bottom: 15px;
+      }
+
+      .result {
+        background: #f1f1f1;
+        padding: 15px;
+        border-radius: 8px;
+        line-height: 1.8;
+      }
+
+      button {
+        display: block;
+        margin: 0 auto 30px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        background: #222;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #444;
+      }
+
+      .success {
+        color: green;
+      }
+
+      .warning {
+        color: #d68b00;
+      }
+
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Session 18 - Debugging & Developer Tools</h1>
+
+      <p class="subtitle">
+        Console Methods, Breakpoints, Variables and Stack Traces
+      </p>
+
+      <button onclick="runAssignment()">Run Assignment</button>
+
+      <div class="section">
+        <h2>Tasks 1 & 2 - Console Messages</h2>
+        <div class="result" id="notificationResult"></div>
+      </div>
+
+      <div class="section">
+        <h2>Tasks 3, 4 & 5 - Console Tables</h2>
+        <div class="result" id="tableResult"></div>
+      </div>
+
+      <div class="section">
+        <h2>Tasks 6, 7 & 8 - addToCart Debugging</h2>
+        <div class="result" id="cartResult"></div>
+      </div>
+
+      <div class="section">
+        <h2>Task 9 - Loop Debugging</h2>
+        <div class="result" id="loopResult"></div>
+      </div>
+
+      <div class="section">
+        <h2>Tasks 10, 11 & 12 - Stack Traces</h2>
+        <div class="result" id="stackResult"></div>
+      </div>
+
+      <div class="section">
+        <h2>Tasks 13, 14 & 15 - Error Messages</h2>
+        <div class="result" id="errorResult"></div>
+      </div>
+    </div>
+
+    <script>
+      function uploadInstagramPost(caption, imageUploaded) {
+        if (!caption) {
+          console.warn("Caption is missing");
+        } else {
+          console.log("Post uploaded successfully");
+        }
+
+        if (!imageUploaded) {
+          console.error("Image failed to upload");
+        }
+      }
+
+      const songs = [
+        {
+          title: "Blinding Lights",
+          artist: "The Weeknd",
+          duration: "3:20",
+        },
+        {
+          title: "Perfect",
+          artist: "Ed Sheeran",
+          duration: "4:23",
+        },
+        {
+          title: "Believer",
+          artist: "Imagine Dragons",
+          duration: "3:24",
+        },
+        {
+          title: "Faded",
+          artist: "Alan Walker",
+          duration: "3:32",
+        },
+        {
+          title: "Shape of You",
+          artist: "Ed Sheeran",
+          duration: "3:53",
+        },
+      ];
+
+      const orders = [
+        {
+          orderId: 101,
+          itemName: "Shoes",
+          price: 2000,
+        },
+        {
+          orderId: 102,
+          itemName: "Shirt",
+          price: 1200,
+        },
+        {
+          orderId: 103,
+          itemName: "Watch",
+          price: 3500,
+        },
+        {
+          orderId: 104,
+          itemName: "Bag",
+          price: 1800,
+        },
+        {
+          orderId: 105,
+          itemName: "Headphones",
+          price: 2500,
+        },
+      ];
+
+      function addToCart(productName, quantity) {
+        console.log("Product:", productName);
+        console.log("Quantity:", quantity);
+
+        if (quantity === 0) {
+          console.warn("Warning: Quantity is zero");
+        }
+
+        if (quantity < 0) {
+          console.error("Error: Quantity cannot be negative");
+        }
+
+        if (quantity > 0) {
+          console.log("Product added successfully");
+        }
+      }
+
+      function addToCartWithBreakpoint(item, quantity) {
+        const total = quantity * 100;
+
+        console.log("Item:", item);
+        console.log("Quantity:", quantity);
+        console.log("Total:", total);
+
+        return total;
+      }
+
+      function processFriendNames() {
+        const friends = ["Rahul", "Amit", "Priya", "Neha", "Karan"];
+
+        const names = [];
+
+        for (let i = 0; i < friends.length; i++) {
+          const name = friends[i];
+
+          names.push(name);
+
+          console.log("Current friend:", name);
+        }
+
+        return names;
+      }
+
+      function confirmOrder() {
+        return placeOrder();
+      }
+
+      function placeOrder() {
+        return processPayment();
+      }
+
+      function processPayment() {
+        throw new Error("Payment failed");
+      }
+
+      function task10() {
+        try {
+          confirmOrder();
+        } catch (error) {
+          console.error("Task 10:", error);
+        }
+      }
+
+      function task11() {
+        try {
+          confirmOrder();
+        } catch (error) {
+          console.error("Task 11:", error);
+        }
+      }
+
+      function getUser() {
+        return fetchUser();
+      }
+
+      function fetchUser() {
+        return JSON.parse(undefined);
+      }
+
+      function task12() {
+        try {
+          getUser();
+        } catch (error) {
+          console.error("Task 12:", error);
+        }
+      }
+
+      function task13() {
+        try {
+          JSON.parse('{"name":"Mohit"');
+        } catch (error) {
+          console.error("Task 13:", error.message);
+
+          return error.message;
+        }
+      }
+
+      function task14() {
+        try {
+          addToCart("Shoes", -2);
+        } catch (error) {
+          console.error("Task 14:", error.message);
+
+          return error.message;
+        }
+      }
+
+      function task15() {
+        try {
+          processPayment();
+        } catch (error) {
+          console.error("Task 15:", error);
+
+          return error.stack;
+        }
+      }
+
+      function runAssignment() {
+        console.clear();
+
+        console.log("========== SESSION 18 ==========");
+
+        console.log("TASK 1 & 2");
+
+        uploadInstagramPost("My new post", true);
+
+        uploadInstagramPost("", false);
+
+        document.getElementById("notificationResult").innerHTML =
+          "<span class='success'>" +
+          "Success message, warning message and error message generated in Console." +
+          "</span>";
+
+        console.log("TASK 3");
+
+        console.table(songs);
+
+        console.log("TASK 4 & 5");
+
+        console.table(orders);
+
+        document.getElementById("tableResult").innerHTML =
+          "Song and order arrays have been displayed using <strong>console.table()</strong>. Open F12 → Console.";
+
+        console.log("TASK 6");
+
+        addToCart("Shoes", 2);
+
+        addToCart("Shirt", 0);
+
+        addToCart("Watch", -1);
+
+        console.log("TASK 7 & 8");
+
+        const cartResult = addToCartWithBreakpoint("Laptop", 2);
+
+        console.log("Cart calculation:", cartResult);
+
+        document.getElementById("cartResult").innerHTML =
+          "Open <strong>Sources</strong> tab and set a breakpoint inside <strong>addToCartWithBreakpoint()</strong> to inspect <strong>item</strong>, <strong>quantity</strong> and <strong>total</strong>.";
+
+        console.log("TASK 9");
+
+        const friendNames = processFriendNames();
+
+        console.log("Friends:", friendNames);
+
+        document.getElementById("loopResult").innerHTML =
+          "Loop executed successfully. Open Console to inspect each friend name.";
+
+        console.log("TASK 10");
+
+        task10();
+
+        console.log("TASK 11");
+
+        task11();
+
+        console.log("TASK 12");
+
+        task12();
+
+        document.getElementById("stackResult").innerHTML =
+          "Open Console and expand the errors to see the complete stack trace.";
+
+        const error13 = task13();
+
+        const error14 = task14();
+
+        const error15 = task15();
+
+        document.getElementById("errorResult").innerHTML =
+          "<strong>Task 13:</strong> " +
+          error13 +
+          "<br><br>" +
+          "<strong>Task 14:</strong> " +
+          error14 +
+          "<br><br>" +
+          "<strong>Task 15:</strong> Stack trace generated in Console.";
+      }
+
+      runAssignment();
+    </script>
+  </body>
+</html>

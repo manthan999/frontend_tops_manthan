@@ -1,0 +1,1206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Project - Playlist & Restaurant Manager</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5849c2;
+        --secondary: #00b894;
+        --danger: #d63031;
+        --warning: #e17055;
+        --dark: #1e1e2f;
+        --text: #2d3436;
+        --muted: #636e72;
+        --light: #f5f6fa;
+        --white: #ffffff;
+        --border: #dfe6e9;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f5f6fa;
+        color: var(--text);
+        min-height: 100vh;
+      }
+
+      .navbar {
+        background: var(--dark);
+        color: white;
+        padding: 18px 30px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .nav-content {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .logo span {
+        color: #a29bfe;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: #ddd;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .nav-links a:hover {
+        color: white;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #6c5ce7, #4834d4);
+        color: white;
+        padding: 60px 20px;
+      }
+
+      .hero-content {
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+        margin-bottom: 12px;
+      }
+
+      .hero p {
+        max-width: 700px;
+        line-height: 1.7;
+        color: #eee;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 35px auto;
+        padding: 0 20px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 22px;
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+      }
+
+      .stat-card h3 {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .stat-card strong {
+        font-size: 28px;
+      }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+      }
+
+      .panel {
+        background: white;
+        padding: 28px;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        margin-bottom: 25px;
+      }
+
+      .panel h2 {
+        margin-bottom: 8px;
+      }
+
+      .panel-description {
+        color: var(--muted);
+        margin-bottom: 22px;
+        font-size: 14px;
+      }
+
+      .form-group {
+        margin-bottom: 17px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s;
+        background: white;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .btn {
+        border: none;
+        padding: 11px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+
+      .btn-success {
+        background: var(--secondary);
+        color: white;
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        color: white;
+      }
+
+      .btn-warning {
+        background: var(--warning);
+        color: white;
+      }
+
+      .btn-secondary {
+        background: #dfe6e9;
+        color: var(--text);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .list-section {
+        margin-top: 5px;
+      }
+
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .section-title h2 {
+        font-size: 22px;
+      }
+
+      .count-badge {
+        background: #eeeaff;
+        color: var(--primary);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+      }
+
+      .items-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+      }
+
+      .item-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        background: white;
+        transition: 0.2s;
+      }
+
+      .item-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+      }
+
+      .item-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 12px;
+      }
+
+      .item-header h3 {
+        font-size: 18px;
+      }
+
+      .item-number {
+        min-width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #eeeaff;
+        color: var(--primary);
+        font-weight: bold;
+        font-size: 13px;
+      }
+
+      .item-description {
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+
+      .item-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 15px;
+      }
+
+      .tag {
+        background: #f1f2f6;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        color: #555;
+      }
+
+      .rating {
+        color: #e67e22;
+        font-weight: bold;
+      }
+
+      .item-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .item-actions .btn {
+        flex: 1;
+      }
+
+      .empty-state {
+        background: white;
+        border: 2px dashed var(--border);
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        color: var(--muted);
+        grid-column: 1 / -1;
+      }
+
+      .architecture {
+        margin-top: 5px;
+      }
+
+      .flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 25px;
+      }
+
+      .flow-box {
+        padding: 18px 22px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 145px;
+        border: 1px solid var(--border);
+        background: #fafafa;
+      }
+
+      .flow-box strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .flow-box span {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .arrow {
+        font-size: 25px;
+        color: var(--primary);
+        font-weight: bold;
+      }
+
+      .storage {
+        background: #fff8e7;
+        border: 1px solid #ffeaa7;
+      }
+
+      .storage strong {
+        color: #a56a00;
+      }
+
+      .success-message,
+      .error-message {
+        position: fixed;
+        top: 80px;
+        right: 25px;
+        padding: 14px 20px;
+        border-radius: 8px;
+        color: white;
+        z-index: 200;
+        box-shadow: var(--shadow);
+        display: none;
+      }
+
+      .success-message {
+        background: var(--secondary);
+      }
+
+      .error-message {
+        background: var(--danger);
+      }
+
+      .footer {
+        background: var(--dark);
+        color: #aaa;
+        text-align: center;
+        padding: 25px;
+        margin-top: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-grid,
+        .stats,
+        .items-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 650px) {
+        .main-grid,
+        .stats,
+        .items-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+          font-size: 30px;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .flow {
+          flex-direction: column;
+        }
+
+        .arrow {
+          transform: rotate(90deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="nav-content">
+        <div class="logo">Mini<span>Manager</span></div>
+
+        <div class="nav-links">
+          <a href="#playlists">Playlists</a>
+          <a href="#restaurants">Restaurants</a>
+          <a href="#architecture">Architecture</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Playlist & Restaurant Manager</h1>
+        <p>
+          A JavaScript mini project demonstrating forms, arrays, localStorage,
+          dynamic UI rendering, edit and delete operations, and data flow
+          between different application components.
+        </p>
+      </div>
+    </section>
+
+    <main class="container">
+      <div class="stats">
+        <div class="stat-card">
+          <h3>Total Playlists</h3>
+          <strong id="playlistCount">0</strong>
+        </div>
+
+        <div class="stat-card">
+          <h3>Total Restaurants</h3>
+          <strong id="restaurantCount">0</strong>
+        </div>
+
+        <div class="stat-card">
+          <h3>Average Rating</h3>
+          <strong id="averageRating">0.0</strong>
+        </div>
+
+        <div class="stat-card">
+          <h3>Storage</h3>
+          <strong>Local</strong>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div class="panel">
+          <h2 id="playlistFormTitle">Create Playlist</h2>
+
+          <p class="panel-description">
+            Add a new playlist with name and description.
+          </p>
+
+          <form id="playlistForm">
+            <input type="hidden" id="playlistEditIndex" value="-1" />
+
+            <div class="form-group">
+              <label for="playlistName"> Playlist Name </label>
+
+              <input
+                type="text"
+                id="playlistName"
+                placeholder="e.g. Chill Vibes"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="playlistDescription"> Description </label>
+
+              <textarea
+                id="playlistDescription"
+                placeholder="Describe your playlist..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="button-group">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                id="playlistSubmitBtn"
+              >
+                Add Playlist
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-secondary hidden"
+                id="cancelPlaylistEdit"
+              >
+                Cancel Edit
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2 id="restaurantFormTitle">Add Restaurant</h2>
+
+          <p class="panel-description">
+            Add a restaurant with cuisine and rating.
+          </p>
+
+          <form id="restaurantForm">
+            <input type="hidden" id="restaurantEditIndex" value="-1" />
+
+            <div class="form-group">
+              <label for="restaurantName"> Restaurant Name </label>
+
+              <input
+                type="text"
+                id="restaurantName"
+                placeholder="e.g. Spice Garden"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="restaurantCuisine"> Cuisine </label>
+
+              <select id="restaurantCuisine" required>
+                <option value="">Select Cuisine</option>
+
+                <option value="Indian">Indian</option>
+
+                <option value="Chinese">Chinese</option>
+
+                <option value="Italian">Italian</option>
+
+                <option value="Mexican">Mexican</option>
+
+                <option value="Japanese">Japanese</option>
+
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="restaurantRating"> Rating </label>
+
+              <input
+                type="number"
+                id="restaurantRating"
+                min="0"
+                max="5"
+                step="0.1"
+                placeholder="e.g. 4.5"
+                required
+              />
+            </div>
+
+            <div class="button-group">
+              <button
+                type="submit"
+                class="btn btn-success"
+                id="restaurantSubmitBtn"
+              >
+                Add Restaurant
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-secondary hidden"
+                id="cancelRestaurantEdit"
+              >
+                Cancel Edit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <section class="panel list-section" id="playlists">
+        <div class="section-title">
+          <h2>Your Playlists</h2>
+
+          <span class="count-badge" id="playlistBadge"> 0 Playlists </span>
+        </div>
+
+        <div class="items-grid" id="playlistList"></div>
+      </section>
+
+      <section class="panel list-section" id="restaurants">
+        <div class="section-title">
+          <h2>Restaurant List</h2>
+
+          <span class="count-badge" id="restaurantBadge"> 0 Restaurants </span>
+        </div>
+
+        <div class="items-grid" id="restaurantList"></div>
+      </section>
+
+      <section class="panel architecture" id="architecture">
+        <h2>Application Architecture & Data Flow</h2>
+
+        <p class="panel-description">
+          The application follows a simple flow from form input to JavaScript
+          data, storage and finally the dynamic display.
+        </p>
+
+        <div class="flow">
+          <div class="flow-box">
+            <strong>User Form</strong>
+            <span>Name, Description, Cuisine, Rating</span>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="flow-box">
+            <strong>Form Submit</strong>
+            <span>JavaScript Event</span>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="flow-box">
+            <strong>JavaScript Array</strong>
+            <span>playlists / restaurants</span>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="flow-box storage">
+            <strong>localStorage</strong>
+            <span>Browser Data Storage</span>
+          </div>
+
+          <div class="arrow">→</div>
+
+          <div class="flow-box">
+            <strong>Display UI</strong>
+            <span>Dynamic Cards</span>
+          </div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-box">
+            <strong>Edit</strong>
+            <span>Form → Array → UI</span>
+          </div>
+
+          <div class="arrow">↔</div>
+
+          <div class="flow-box">
+            <strong>Delete</strong>
+            <span>Array splice() → UI</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="success-message" id="successMessage"></div>
+
+    <div class="error-message" id="errorMessage"></div>
+
+    <footer class="footer">
+      Session 19 Mini Project • HTML • CSS • JavaScript
+    </footer>
+
+    <script>
+      let playlists = JSON.parse(localStorage.getItem("playlists")) || [
+        {
+          name: "Chill Vibes",
+          description: "Relaxing songs for peaceful evenings.",
+        },
+        {
+          name: "Workout Hits",
+          description: "High energy songs for gym sessions.",
+        },
+      ];
+
+      let restaurants = JSON.parse(localStorage.getItem("restaurants")) || [
+        {
+          name: "Spice Garden",
+          cuisine: "Indian",
+          rating: 4.5,
+        },
+        {
+          name: "Dragon House",
+          cuisine: "Chinese",
+          rating: 4.2,
+        },
+      ];
+
+      const playlistForm = document.getElementById("playlistForm");
+
+      const restaurantForm = document.getElementById("restaurantForm");
+
+      const playlistName = document.getElementById("playlistName");
+
+      const playlistDescription = document.getElementById(
+        "playlistDescription",
+      );
+
+      const restaurantName = document.getElementById("restaurantName");
+
+      const restaurantCuisine = document.getElementById("restaurantCuisine");
+
+      const restaurantRating = document.getElementById("restaurantRating");
+
+      const playlistList = document.getElementById("playlistList");
+
+      const restaurantList = document.getElementById("restaurantList");
+
+      const playlistEditIndex = document.getElementById("playlistEditIndex");
+
+      const restaurantEditIndex = document.getElementById(
+        "restaurantEditIndex",
+      );
+
+      const playlistFormTitle = document.getElementById("playlistFormTitle");
+
+      const restaurantFormTitle = document.getElementById(
+        "restaurantFormTitle",
+      );
+
+      const playlistSubmitBtn = document.getElementById("playlistSubmitBtn");
+
+      const restaurantSubmitBtn = document.getElementById(
+        "restaurantSubmitBtn",
+      );
+
+      const cancelPlaylistEdit = document.getElementById("cancelPlaylistEdit");
+
+      const cancelRestaurantEdit = document.getElementById(
+        "cancelRestaurantEdit",
+      );
+
+      function saveData() {
+        localStorage.setItem("playlists", JSON.stringify(playlists));
+
+        localStorage.setItem("restaurants", JSON.stringify(restaurants));
+      }
+
+      function showSuccess(message) {
+        const element = document.getElementById("successMessage");
+
+        element.textContent = message;
+
+        element.style.display = "block";
+
+        setTimeout(function () {
+          element.style.display = "none";
+        }, 2500);
+      }
+
+      function showError(message) {
+        const element = document.getElementById("errorMessage");
+
+        element.textContent = message;
+
+        element.style.display = "block";
+
+        setTimeout(function () {
+          element.style.display = "none";
+        }, 2500);
+      }
+
+      function renderPlaylists() {
+        playlistList.innerHTML = "";
+
+        if (playlists.length === 0) {
+          playlistList.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No playlists yet</h3>
+                        <p>Create your first playlist using the form above.</p>
+                    </div>
+                    `;
+        } else {
+          playlists.forEach(function (playlist, index) {
+            const card = document.createElement("div");
+
+            card.className = "item-card";
+
+            card.innerHTML = `
+                        <div class="item-header">
+                            <h3>${escapeHTML(playlist.name)}</h3>
+                            <div class="item-number">${index + 1}</div>
+                        </div>
+
+                        <p class="item-description">
+                            ${escapeHTML(playlist.description)}
+                        </p>
+
+                        <div class="item-meta">
+                            <span class="tag">
+                                🎵 Playlist
+                            </span>
+
+                            <span class="tag">
+                                ${playlist.name.length} characters
+                            </span>
+                        </div>
+
+                        <div class="item-actions">
+
+                            <button
+                                class="btn btn-warning"
+                                onclick="editPlaylist(${index})"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="deletePlaylist(${index})"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+                        `;
+
+            playlistList.appendChild(card);
+          });
+        }
+
+        updateStats();
+      }
+
+      function renderRestaurants() {
+        restaurantList.innerHTML = "";
+
+        if (restaurants.length === 0) {
+          restaurantList.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No restaurants yet</h3>
+                        <p>Add your first restaurant using the form above.</p>
+                    </div>
+                    `;
+        } else {
+          restaurants.forEach(function (restaurant, index) {
+            const card = document.createElement("div");
+
+            card.className = "item-card";
+
+            card.innerHTML = `
+                        <div class="item-header">
+                            <h3>${escapeHTML(restaurant.name)}</h3>
+                            <div class="item-number">${index + 1}</div>
+                        </div>
+
+                        <div class="item-meta">
+
+                            <span class="tag">
+                                🍽️ ${escapeHTML(restaurant.cuisine)}
+                            </span>
+
+                            <span class="tag rating">
+                                ⭐ ${restaurant.rating}/5
+                            </span>
+
+                        </div>
+
+                        <p class="item-description">
+                            ${getRestaurantMessage(restaurant.rating)}
+                        </p>
+
+                        <div class="item-actions">
+
+                            <button
+                                class="btn btn-warning"
+                                onclick="editRestaurant(${index})"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="deleteRestaurant(${index})"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+                        `;
+
+            restaurantList.appendChild(card);
+          });
+        }
+
+        updateStats();
+      }
+
+      function getRestaurantMessage(rating) {
+        if (rating >= 4.5) {
+          return "Highly rated restaurant.";
+        }
+
+        if (rating >= 4) {
+          return "Very good customer rating.";
+        }
+
+        if (rating >= 3) {
+          return "Good restaurant rating.";
+        }
+
+        return "Average restaurant rating.";
+      }
+
+      function escapeHTML(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      playlistForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = playlistName.value.trim();
+
+        const description = playlistDescription.value.trim();
+
+        const editIndex = Number(playlistEditIndex.value);
+
+        if (!name || !description) {
+          showError("Please fill all playlist fields.");
+
+          return;
+        }
+
+        if (editIndex === -1) {
+          playlists.push({
+            name: name,
+            description: description,
+          });
+
+          showSuccess("Playlist added successfully.");
+        } else {
+          playlists[editIndex] = {
+            name: name,
+            description: description,
+          };
+
+          showSuccess("Playlist updated successfully.");
+        }
+
+        saveData();
+
+        renderPlaylists();
+
+        resetPlaylistForm();
+      });
+
+      restaurantForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = restaurantName.value.trim();
+
+        const cuisine = restaurantCuisine.value;
+
+        const rating = Number(restaurantRating.value);
+
+        const editIndex = Number(restaurantEditIndex.value);
+
+        if (!name || !cuisine || Number.isNaN(rating)) {
+          showError("Please fill all restaurant fields.");
+
+          return;
+        }
+
+        if (rating < 0 || rating > 5) {
+          showError("Rating must be between 0 and 5.");
+
+          return;
+        }
+
+        if (editIndex === -1) {
+          restaurants.push({
+            name: name,
+            cuisine: cuisine,
+            rating: rating,
+          });
+
+          showSuccess("Restaurant added successfully.");
+        } else {
+          restaurants[editIndex] = {
+            name: name,
+            cuisine: cuisine,
+            rating: rating,
+          };
+
+          showSuccess("Restaurant updated successfully.");
+        }
+
+        saveData();
+
+        renderRestaurants();
+
+        resetRestaurantForm();
+      });
+
+      function editPlaylist(index) {
+        const playlist = playlists[index];
+
+        playlistName.value = playlist.name;
+
+        playlistDescription.value = playlist.description;
+
+        playlistEditIndex.value = index;
+
+        playlistFormTitle.textContent = "Edit Playlist";
+
+        playlistSubmitBtn.textContent = "Update Playlist";
+
+        cancelPlaylistEdit.classList.remove("hidden");
+
+        playlistForm.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+
+      function deletePlaylist(index) {
+        const playlist = playlists[index];
+
+        const confirmed = confirm("Delete playlist '" + playlist.name + "'?");
+
+        if (!confirmed) {
+          return;
+        }
+
+        playlists.splice(index, 1);
+
+        saveData();
+
+        renderPlaylists();
+
+        showSuccess("Playlist deleted successfully.");
+      }
+
+      function editRestaurant(index) {
+        const restaurant = restaurants[index];
+
+        restaurantName.value = restaurant.name;
+
+        restaurantCuisine.value = restaurant.cuisine;
+
+        restaurantRating.value = restaurant.rating;
+
+        restaurantEditIndex.value = index;
+
+        restaurantFormTitle.textContent = "Edit Restaurant";
+
+        restaurantSubmitBtn.textContent = "Update Restaurant";
+
+        cancelRestaurantEdit.classList.remove("hidden");
+
+        restaurantForm.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+
+      function deleteRestaurant(index) {
+        const restaurant = restaurants[index];
+
+        const confirmed = confirm(
+          "Delete restaurant '" + restaurant.name + "'?",
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        restaurants.splice(index, 1);
+
+        saveData();
+
+        renderRestaurants();
+
+        showSuccess("Restaurant deleted successfully.");
+      }
+
+      function resetPlaylistForm() {
+        playlistForm.reset();
+
+        playlistEditIndex.value = -1;
+
+        playlistFormTitle.textContent = "Create Playlist";
+
+        playlistSubmitBtn.textContent = "Add Playlist";
+
+        cancelPlaylistEdit.classList.add("hidden");
+      }
+
+      function resetRestaurantForm() {
+        restaurantForm.reset();
+
+        restaurantEditIndex.value = -1;
+
+        restaurantFormTitle.textContent = "Add Restaurant";
+
+        restaurantSubmitBtn.textContent = "Add Restaurant";
+
+        cancelRestaurantEdit.classList.add("hidden");
+      }
+
+      cancelPlaylistEdit.addEventListener("click", function () {
+        resetPlaylistForm();
+      });
+
+      cancelRestaurantEdit.addEventListener("click", function () {
+        resetRestaurantForm();
+      });
+
+      function updateStats() {
+        document.getElementById("playlistCount").textContent = playlists.length;
+
+        document.getElementById("restaurantCount").textContent =
+          restaurants.length;
+
+        document.getElementById("playlistBadge").textContent =
+          playlists.length +
+          (playlists.length === 1 ? " Playlist" : " Playlists");
+
+        document.getElementById("restaurantBadge").textContent =
+          restaurants.length +
+          (restaurants.length === 1 ? " Restaurant" : " Restaurants");
+
+        if (restaurants.length === 0) {
+          document.getElementById("averageRating").textContent = "0.0";
+        } else {
+          const totalRating = restaurants.reduce(function (total, restaurant) {
+            return total + restaurant.rating;
+          }, 0);
+
+          const average = totalRating / restaurants.length;
+
+          document.getElementById("averageRating").textContent =
+            average.toFixed(1);
+        }
+      }
+
+      renderPlaylists();
+
+      renderRestaurants();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 9 - JSON & LocalStorage</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .section {
+      margin: 20px 0;
+      padding: 20px;
+      background: #eee;
+      border-radius: 8px;
+    }
+
+    input {
+      padding: 10px;
+      width: 60%;
+      max-width: 450px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .danger {
+      background: #c62828;
+    }
+
+    .card {
+      background: white;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .empty {
+      color: #666;
+    }
+
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    pre {
+      background: #222;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Session 9: JSON & LocalStorage</h1>
+
+    <div class="section">
+      <p>
+        <strong>F12 → Console</strong> open karke JSON aur localStorage
+        ke task outputs check karo.
+      </p>
+      <p>
+        Browser reload karne ke baad saved favorites/wishlist automatically
+        load ho jayenge.
+      </p>
+    </div>
+
+
+    <!-- TASK 7 & 8 -->
+    <div class="section">
+      <h2>Favorite Zomato Restaurants</h2>
+
+      <input
+        type="text"
+        id="restaurantInput"
+        placeholder="Enter restaurant name"
+      >
+
+      <button id="addRestaurantBtn">Add Restaurant</button>
+      <button id="clearRestaurantsBtn" class="danger">
+        Clear Favorites
+      </button>
+
+      <div id="restaurantList"></div>
+      <p id="restaurantStatus"></p>
+    </div>
+
+
+    <!-- TASK 12 -->
+    <div class="section">
+      <h2>Flipkart Wishlist</h2>
+
+      <button id="addWishlistBtn">Add Sample Products</button>
+
+      <button id="clearWishlistBtn" class="danger">
+        Clear Wishlist
+      </button>
+
+      <div id="wishlist"></div>
+    </div>
+
+
+    <!-- TASK 13 & 14 -->
+    <div class="section">
+      <h2>Orders</h2>
+
+      <div id="orderDisplay"></div>
+    </div>
+
+
+    <!-- TASK 15 -->
+    <div class="section">
+      <h2>Favorite Apps</h2>
+
+      <div id="appDisplay"></div>
+    </div>
+
+  </div>
+
+
+  <script>
+    // =========================================================
+    // SESSION 9 - JSON & LOCALSTORAGE
+    // =========================================================
+
+
+    // =========================================================
+    // TASK 1 & 2
+    // JavaScript object -> JSON string using JSON.stringify()
+    // =========================================================
+
+    const product = {
+      name: "Laptop",
+      price: 55000,
+      rating: 4.5
+    };
+
+    const productJSON = JSON.stringify(product);
+
+    console.log("JavaScript Object:", product);
+    console.log("JSON String:", productJSON);
+
+    const foodApps = [
+      "Zomato",
+      "Swiggy",
+      "Domino's"
+    ];
+
+    const foodAppsJSON = JSON.stringify(foodApps);
+
+    console.log("===== TASK 3: Food Apps JSON =====");
+    console.log(foodAppsJSON);
+
+
+    function getYouTubeChannels(jsonString) {
+      return JSON.parse(jsonString);
+    }
+
+    const favoriteChannelsJSON =
+      '["Apna College", "CodeWithHarry", "Fireship"]';
+
+    const channelNames =
+      getYouTubeChannels(favoriteChannelsJSON);
+
+    console.log("Parsed Channels:", channelNames);
+
+
+    // Another example from Task 5:
+    const secondChannelsJSON =
+      '["Bizzarri", "Sneakers"]';
+
+    console.log(
+      "Parsed second list:",
+      getYouTubeChannels(secondChannelsJSON)
+    );
+
+
+    function saveRecentSearch(query) {
+
+      const savedSearches =
+        localStorage.getItem("recentSearches");
+
+      let recentSearches = [];
+
+      if (savedSearches) {
+        recentSearches = JSON.parse(savedSearches);
+      }
+
+      recentSearches.push(query);
+
+      localStorage.setItem(
+        "recentSearches",
+        JSON.stringify(recentSearches)
+      );
+    }
+
+    saveRecentSearch("Biryani");
+    saveRecentSearch("Sneakers");
+
+    console.log(
+      "Saved searches:",
+      localStorage.getItem("recentSearches")
+    );
+
+
+    const restaurantInput =
+      document.getElementById("restaurantInput");
+
+    const addRestaurantBtn =
+      document.getElementById("addRestaurantBtn");
+
+    const clearRestaurantsBtn =
+      document.getElementById("clearRestaurantsBtn");
+
+    const restaurantList =
+      document.getElementById("restaurantList");
+
+    const restaurantStatus =
+      document.getElementById("restaurantStatus");
+
+    function getRestaurants() {
+
+      const saved =
+        localStorage.getItem("favoriteRestaurants");
+
+      if (!saved) {
+        return [];
+      }
+
+      return JSON.parse(saved);
+    }
+
+
+    function saveRestaurants(restaurants) {
+
+      localStorage.setItem(
+        "favoriteRestaurants",
+        JSON.stringify(restaurants)
+      );
+    }
+
+
+    function displayRestaurants() {
+
+      const restaurants = getRestaurants();
+
+      restaurantList.innerHTML = "";
+
+      if (restaurants.length === 0) {
+
+        restaurantList.innerHTML =
+          '<p class="empty">No favorite restaurants saved.</p>';
+
+        return;
+      }
+
+      restaurants.forEach((restaurant, index) => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.textContent =
+          (index + 1) + ". " + restaurant;
+
+        restaurantList.appendChild(card);
+      });
+    }
+
+
+    addRestaurantBtn.addEventListener("click", function () {
+
+      const restaurantName =
+        restaurantInput.value.trim();
+
+      if (restaurantName === "") {
+        restaurantStatus.textContent =
+          "Please enter a restaurant name.";
+        return;
+      }
+
+      const restaurants = getRestaurants();
+
+      if (restaurants.length >= 3) {
+        restaurantStatus.textContent =
+          "You can save only your top 3 restaurants.";
+        return;
+      }
+
+      restaurants.push(restaurantName);
+
+      saveRestaurants(restaurants);
+
+      restaurantInput.value = "";
+
+      restaurantStatus.textContent =
+        "Restaurant saved to localStorage!";
+
+      displayRestaurants();
+    });
+
+
+    clearRestaurantsBtn.addEventListener("click", function () {
+
+      localStorage.removeItem("favoriteRestaurants");
+
+      restaurantStatus.textContent =
+        "Favorite restaurants cleared.";
+
+      displayRestaurants();
+    });
+
+
+    displayRestaurants();
+
+
+    function getRecentSearches() {
+
+      const saved =
+        localStorage.getItem("recentSearches");
+
+      if (!saved) {
+        return [];
+      }
+
+      return JSON.parse(saved);
+    }
+
+    console.log(getRecentSearches());
+
+
+    function clearFavorites() {
+
+      localStorage.removeItem("favoriteRestaurants");
+
+      displayRestaurants();
+
+      restaurantStatus.textContent =
+        "Favorites removed from localStorage.";
+    }
+
+    console.log(
+      "clearFavorites() is connected to the Clear Favorites button."
+    );
+
+    const sampleWishlist = [
+      {
+        name: "iPhone 15",
+        price: 65000
+      },
+      {
+        name: "Sony Headphones",
+        price: 7999
+      },
+      {
+        name: "Mechanical Keyboard",
+        price: 2499
+      }
+    ];
+
+
+    const addWishlistBtn =
+      document.getElementById("addWishlistBtn");
+
+    const clearWishlistBtn =
+      document.getElementById("clearWishlistBtn");
+
+    const wishlistDisplay =
+      document.getElementById("wishlist");
+
+
+    function getWishlist() {
+
+      const saved =
+        localStorage.getItem("wishlist");
+
+      if (!saved) {
+        return [];
+      }
+
+      return JSON.parse(saved);
+    }
+
+
+    function displayWishlist() {
+
+      const savedWishlist = getWishlist();
+
+      wishlistDisplay.innerHTML = "";
+
+      if (savedWishlist.length === 0) {
+
+        wishlistDisplay.innerHTML =
+          '<p class="empty">Wishlist is empty.</p>';
+
+        return;
+      }
+
+      savedWishlist.forEach((item) => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML =
+          "<strong>" + item.name + "</strong>" +
+          "<br>Price: ₹" + item.price;
+
+        wishlistDisplay.appendChild(card);
+      });
+    }
+
+
+    addWishlistBtn.addEventListener("click", function () {
+
+      localStorage.setItem(
+        "wishlist",
+        JSON.stringify(sampleWishlist)
+      );
+
+      displayWishlist();
+
+      console.log(
+        "Wishlist saved:",
+        localStorage.getItem("wishlist")
+      );
+    });
+
+
+    clearWishlistBtn.addEventListener("click", function () {
+
+      localStorage.removeItem("wishlist");
+
+      displayWishlist();
+
+      console.log("Wishlist cleared.");
+    });
+
+
+    displayWishlist();
+
+
+    const orders = [
+      {
+        orderId: 101,
+        items: [
+          {
+            itemName: "Pizza",
+            price: 299
+          },
+          {
+            itemName: "Cold Drink",
+            price: 80
+          }
+        ],
+        delivery: {
+          address: "Main Road",
+          status: "Delivered"
+        }
+      },
+      {
+        orderId: 102,
+        items: [
+          {
+            itemName: "Burger",
+            price: 149
+          },
+          {
+            itemName: "Fries",
+            price: 99
+          },
+          {
+            itemName: "Shake",
+            price: 120
+          }
+        ],
+        delivery: {
+          address: "Station Road",
+          status: "Out for delivery"
+        }
+      }
+    ];
+
+    localStorage.setItem(
+      "orders",
+      JSON.stringify(orders)
+    );
+
+    const savedOrders =
+      localStorage.getItem("orders");
+
+    const parsedOrders =
+      JSON.parse(savedOrders);
+
+    console.log("===== TASK 13-14: Orders =====");
+    console.log("Saved Orders:", parsedOrders);
+
+
+    const orderDisplay =
+      document.getElementById("orderDisplay");
+
+
+    parsedOrders.forEach((order) => {
+
+      let totalPrice = 0;
+
+      // Nested loop for nested items array.
+      order.items.forEach((item) => {
+        totalPrice += item.price;
+      });
+
+      const card = document.createElement("div");
+
+      card.className = "card";
+
+      card.innerHTML = `
+        <strong>Order #${order.orderId}</strong><br>
+        Total Price: ₹${totalPrice}<br>
+        Delivery Status: ${order.delivery.status}<br>
+        Address: ${order.delivery.address}
+      `;
+
+      orderDisplay.appendChild(card);
+    });
+
+    console.log("localStorage stores strings.");
+    console.log(
+      "Correct:",
+      JSON.stringify(["Jawan", "Pathaan", "Dunki"])
+    );
+    console.log(
+      "Parsed:",
+      JSON.parse(
+        JSON.stringify(["Jawan", "Pathaan", "Dunki"])
+      )
+    );
+
+    const movies = [
+      "Jawan",
+      "Pathaan",
+      "Dunki"
+    ];
+
+    localStorage.setItem(
+      "movies",
+      JSON.stringify(movies)
+    );
+
+    const savedMovies =
+      localStorage.getItem("movies");
+
+    const parsedMovies =
+      JSON.parse(savedMovies);
+    console.log("Saved:", savedMovies);
+    console.log("Parsed:", parsedMovies);
+
+    const favApps = [
+      {
+        title: "Instagram",
+        url: "https://www.instagram.com"
+      },
+      {
+        title: "YouTube",
+        url: "https://www.youtube.com"
+      },
+      {
+        title: "Zomato",
+        url: "https://www.zomato.com"
+      },
+      {
+        title: "Spotify",
+        url: "https://www.spotify.com"
+      },
+      {
+        title: "Paytm",
+        url: "https://paytm.com"
+      }
+    ];
+
+
+    const replacementApp = {
+      title: "WhatsApp",
+      url: "https://www.whatsapp.com"
+    };
+
+
+
+    favApps.splice(2, 1, replacementApp);
+
+    localStorage.setItem(
+      "favApps",
+      JSON.stringify(favApps)
+    );
+
+    console.log("Final array:", favApps);
+
+
+    const appDisplay =
+      document.getElementById("appDisplay");
+
+
+    favApps.forEach((app) => {
+
+      const card = document.createElement("div");
+
+      card.className = "card";
+
+      card.innerHTML = `
+        <strong>${app.title}</strong><br>
+        URL: ${app.url}
+      `;
+
+      appDisplay.appendChild(card);
+    });
+
+    console.log("JSON.stringify() and JSON.parse() completed.");
+    console.log("localStorage.setItem(), getItem(), removeItem() completed.");
+    console.log("Reload the page to verify persistence.");
+  </script>
+
+</body>
+</html>

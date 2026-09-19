@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 13 - Error Handling</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 30px;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+        color: #555;
+      }
+
+      button {
+        display: block;
+        margin: 15px auto;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        background: #222;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #444;
+      }
+
+      .info {
+        margin-top: 25px;
+        padding: 20px;
+        background: #eee;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Session 13 - Error Handling in JavaScript</h1>
+
+      <p>Open the Console and click the button to run the tasks.</p>
+
+      <button onclick="runAllTasks()">Run All Tasks</button>
+
+      <div class="info">
+        <h3>Developer Tools</h3>
+        <p>
+          Press F12 and open the Console tab to see errors and stack traces.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      function validateSpotifyURL(url) {
+        if (!url.startsWith("https://open.spotify.com/")) {
+          throw new Error("Invalid Spotify URL");
+        }
+
+        return "Valid Spotify URL";
+      }
+
+      function task2() {
+        try {
+          console.log(validateSpotifyURL("https://example.com/song"));
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
+
+      function validateUsername(username) {
+        if (!/^[a-zA-Z0-9]+$/.test(username)) {
+          throw new Error("Invalid Username");
+        }
+
+        return "Valid Username";
+      }
+
+      function task3() {
+        try {
+          console.log(validateUsername("Mohit@123"));
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
+
+      function task4() {
+        const jsonString = '{"name":"Shoes","price":999}';
+
+        try {
+          const product = JSON.parse(jsonString);
+
+          console.log(product);
+        } catch (error) {
+          console.error("Invalid product data");
+        } finally {
+          console.log("Parsing attempt finished.");
+        }
+      }
+
+      function task5() {
+        const jsonString = '{"name":"Shoes","price":999';
+
+        try {
+          const product = JSON.parse(jsonString);
+
+          console.log(product);
+        } catch (error) {
+          console.error("Invalid product data");
+        } finally {
+          console.log("Parsing attempt finished.");
+        }
+      }
+
+      function checkPlaylistURL(url) {
+        if (!url.startsWith("https://open.spotify.com/")) {
+          throw new Error("Invalid Spotify URL");
+        }
+
+        return "Valid Spotify URL";
+      }
+
+      function task6() {
+        try {
+          console.log(checkPlaylistURL("https://example.com/playlist"));
+        } catch (error) {
+          console.error(error.message);
+        } finally {
+          console.log("Validation complete.");
+        }
+      }
+
+      function checkPaymentAmount(amount) {
+        if (amount <= 0) {
+          throw new Error("Amount must be positive");
+        }
+
+        return "Payment accepted";
+      }
+
+      function task7() {
+        try {
+          console.log(checkPaymentAmount(0));
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
+
+      function task8() {
+        try {
+          console.log(checkPaymentAmount(-500));
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
+
+      function getOrderTotal(items) {
+        if (!Array.isArray(items)) {
+          throw new Error("Invalid items data");
+        }
+
+        const total = items.reduce(function (sum, item) {
+          if (item.price < 0) {
+            throw new Error("Invalid price");
+          }
+
+          return sum + item.price;
+        }, 0);
+
+        return total;
+      }
+
+      function task9() {
+        const items = [
+          {
+            name: "Shoes",
+            price: 999,
+          },
+          {
+            name: "Shirt",
+            price: -500,
+          },
+        ];
+
+        try {
+          console.log("Order Total:", getOrderTotal(items));
+        } catch (error) {
+          console.error("Could not calculate order total:", error.message);
+        }
+      }
+
+      function task10() {
+        const user = undefined;
+
+        try {
+          console.log(user.name);
+        } catch (error) {
+          console.error("User data not found.");
+        }
+      }
+
+      function task11() {
+        const user = undefined;
+
+        try {
+          console.log(user.name);
+        } catch (error) {
+          console.error("User data not found.");
+        }
+      }
+
+      function formatFollowers(count) {
+        try {
+          if (count < 0) {
+            throw new Error("Negative count");
+          }
+
+          return count + " followers";
+        } catch (error) {
+          return error.message;
+        }
+      }
+
+      function task12() {
+        console.log(formatFollowers(-10));
+      }
+
+      function task13() {
+        try {
+          JSON.parse('{"name":"Mohit"');
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      function task14() {
+        try {
+          validateSpotifyURL("https://example.com");
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      function task15() {
+        function testError() {
+          throw new Error("Something went wrong");
+        }
+
+        try {
+          testError();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      function runAllTasks() {
+        try {
+          console.log(validateSpotifyURL("https://example.com"));
+        } catch (error) {
+          console.error("Task 1:", error.message);
+        }
+
+        task2();
+        task3();
+        task4();
+        task5();
+        task6();
+        task7();
+        task8();
+        task9();
+        task10();
+        task11();
+        task12();
+        task13();
+        task14();
+        task15();
+      }
+    </script>
+  </body>
+</html>

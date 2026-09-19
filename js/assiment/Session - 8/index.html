@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 8 - Arrays & Objects</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: #eee;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+
+    .product-card,
+    .order-card {
+      background: #f8f8f8;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 10px 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    .info {
+      background: #eee;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Session 8: Arrays & Objects</h1>
+
+    <div class="info">
+      <p><strong>F12 → Console</strong> open karke tasks ke outputs dekho.</p>
+      <p>Page par bhi products, orders aur favorite apps ka output diya gaya hai.</p>
+    </div>
+
+    <h2>Spotify Playlists</h2>
+    <div id="playlistDisplay"></div>
+
+    <h2>Flipkart Products</h2>
+    <div id="productDisplay"></div>
+
+    <h2>Movies</h2>
+    <div id="movieDisplay"></div>
+
+    <h2>Orders</h2>
+    <div id="orderDisplay"></div>
+
+    <h2>Favorite Apps</h2>
+    <div id="appDisplay"></div>
+  </div>
+
+
+  <script>
+
+
+    const playlists = [
+      {
+        name: "Workout Hits",
+        creator: "Mohit",
+        numberOfSongs: 25,
+        genre: "Pop"
+      },
+      {
+        name: "Chill Vibes",
+        creator: "Aarya",
+        numberOfSongs: 18,
+        genre: "Lo-fi"
+      },
+      {
+        name: "Road Trip",
+        creator: "Rahul",
+        numberOfSongs: 30,
+        genre: "Rock"
+      }
+    ];
+
+    console.log(playlists);
+
+
+    const newPlaylist = {
+      name: "Late Night",
+      creator: "Mohit",
+      numberOfSongs: 20,
+      genre: "R&B"
+    };
+
+    playlists.push(newPlaylist);
+    console.log(playlists);
+
+
+    const temporaryPlaylist = {
+      name: "Favorites",
+      creator: "Mohit",
+      numberOfSongs: 15,
+      genre: "Bollywood"
+    };
+
+    playlists.push(temporaryPlaylist);
+
+    console.log("After push():", playlists);
+
+    const removedPlaylist = playlists.pop();
+
+    console.log("Removed using pop():", removedPlaylist);
+    console.log("After pop():", playlists);
+
+
+
+    const lastPlaylist = playlists.pop();
+
+    console.log("Removed playlist:", lastPlaylist);
+    console.log("Remaining playlists:", playlists);
+
+    const products = [
+      {
+        productName: "Laptop",
+        price: 55000,
+        quantity: 1
+      },
+      {
+        productName: "Headphones",
+        price: 2500,
+        quantity: 2
+      },
+      {
+        productName: "Keyboard",
+        price: 1500,
+        quantity: 1
+      },
+      {
+        productName: "Mouse",
+        price: 800,
+        quantity: 2
+      }
+    ];
+
+    for (const product of products) {
+      const total = product.price * product.quantity;
+
+      console.log(
+        product.productName + " - Total Price: ₹" + total
+      );
+    }
+
+
+    const replacementPlaylist = {
+      name: "Coding Focus",
+      creator: "Mohit",
+      numberOfSongs: 12,
+      genre: "Electronic"
+    };
+
+    playlists.splice(1, 1, replacementPlaylist);
+
+    console.log(playlists);
+
+
+    const movies = [
+      {
+        title: "3 Idiots",
+        year: 2009,
+        rating: {
+          imdb: 8.4,
+          rottenTomatoes: 100
+        }
+      },
+      {
+        title: "Dangal",
+        year: 2016,
+        rating: {
+          imdb: 8.3,
+          rottenTomatoes: 88
+        }
+      },
+      {
+        title: "Interstellar",
+        year: 2014,
+        rating: {
+          imdb: 8.7,
+          rottenTomatoes: 73
+        }
+      }
+    ];
+
+
+    for (const movie of movies) {
+      console.log(
+        movie.title + " - IMDb: " + movie.rating.imdb
+      );
+    }
+
+
+    const orders = [
+      {
+        orderId: 101,
+        items: [
+          {
+            itemName: "Pizza",
+            price: 299
+          },
+          {
+            itemName: "Cold Drink",
+            price: 80
+          }
+        ],
+        delivery: {
+          address: "Main Road",
+          status: "Delivered"
+        }
+      },
+      {
+        orderId: 102,
+        items: [
+          {
+            itemName: "Burger",
+            price: 149
+          },
+          {
+            itemName: "Fries",
+            price: 99
+          },
+          {
+            itemName: "Shake",
+            price: 120
+          }
+        ],
+        delivery: {
+          address: "Station Road",
+          status: "Out for delivery"
+        }
+      }
+    ];
+
+
+    for (const order of orders) {
+
+      let orderTotal = 0;
+
+      for (const item of order.items) {
+        orderTotal += item.price;
+      }
+
+      console.log(
+        "Order ID:",
+        order.orderId,
+        "| Total Price: ₹" + orderTotal
+      );
+
+      console.log(
+        "Delivery Status:",
+        order.delivery.status
+      );
+    }
+
+
+    const favApps = [
+      {
+        title: "Instagram",
+        url: "https://www.instagram.com"
+      },
+      {
+        title: "YouTube",
+        url: "https://www.youtube.com"
+      },
+      {
+        title: "Zomato",
+        url: "https://www.zomato.com"
+      },
+      {
+        title: "Spotify",
+        url: "https://www.spotify.com"
+      },
+      {
+        title: "Paytm",
+        url: "https://paytm.com"
+      }
+    ];
+
+    const newApp = {
+      title: "WhatsApp",
+      url: "https://www.whatsapp.com"
+    };
+
+    favApps.splice(2, 1, newApp);
+
+    console.log(favApps);
+
+
+    const playlistDisplay =
+      document.getElementById("playlistDisplay");
+
+    playlists.forEach((playlist) => {
+
+      const card = document.createElement("div");
+
+      card.className = "card";
+
+      card.innerHTML = `
+        <strong>${playlist.name}</strong><br>
+        Creator: ${playlist.creator}<br>
+        Songs: ${playlist.numberOfSongs}<br>
+        Genre: ${playlist.genre}
+      `;
+
+      playlistDisplay.appendChild(card);
+    });
+
+
+    const productDisplay =
+      document.getElementById("productDisplay");
+
+    products.forEach((product) => {
+
+      const card = document.createElement("div");
+
+      card.className = "product-card";
+
+      const total = product.price * product.quantity;
+
+      card.innerHTML = `
+        <strong>${product.productName}</strong><br>
+        Price: ₹${product.price}<br>
+        Quantity: ${product.quantity}<br>
+        Total: ₹${total}
+      `;
+
+      productDisplay.appendChild(card);
+    });
+
+    const movieDisplay =
+      document.getElementById("movieDisplay");
+
+    movies.forEach((movie) => {
+
+      const card = document.createElement("div");
+
+      card.className = "card";
+
+      card.innerHTML = `
+        <strong>${movie.title}</strong><br>
+        Year: ${movie.year}<br>
+        IMDb: ${movie.rating.imdb}<br>
+        Rotten Tomatoes: ${movie.rating.rottenTomatoes}
+      `;
+
+      movieDisplay.appendChild(card);
+    });
+
+
+
+    const orderDisplay =
+      document.getElementById("orderDisplay");
+
+    orders.forEach((order) => {
+
+      let total = 0;
+
+      order.items.forEach((item) => {
+        total += item.price;
+      });
+
+      const card = document.createElement("div");
+
+      card.className = "order-card";
+
+      card.innerHTML = `
+        <strong>Order #${order.orderId}</strong><br>
+        Total: ₹${total}<br>
+        Delivery: ${order.delivery.status}<br>
+        Address: ${order.delivery.address}
+      `;
+
+      orderDisplay.appendChild(card);
+    });
+
+    const appDisplay =
+      document.getElementById("appDisplay");
+
+    favApps.forEach((app) => {
+
+      const card = document.createElement("div");
+
+      card.className = "card";
+
+      card.innerHTML = `
+        <strong>${app.title}</strong><br>
+        URL: ${app.url}
+      `;
+
+      appDisplay.appendChild(card);
+    });
+
+
+    console.log("Arrays, objects, nested objects, push(), pop(), and splice() completed.");
+  </script>
+
+</body>
+</html>

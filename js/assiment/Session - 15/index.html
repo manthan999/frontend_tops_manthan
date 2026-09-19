@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session 15 - Classes and OOP</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background: white;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      h2 {
+        margin-bottom: 15px;
+      }
+
+      .result {
+        background: #f1f1f1;
+        padding: 15px;
+        border-radius: 8px;
+        line-height: 1.8;
+      }
+
+      button {
+        display: block;
+        margin: 0 auto 30px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        background: #222;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #444;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Session 15 - Classes and OOP in JavaScript</h1>
+
+      <p class="subtitle">Classes, Constructors, Methods, Objects and OOP</p>
+
+      <button onclick="runAssignment()">Run Assignment</button>
+
+      <div class="card">
+        <h2>Playlist</h2>
+        <div class="result" id="playlistResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Spotify Playlist</h2>
+        <div class="result" id="spotifyResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Flipkart Product</h2>
+        <div class="result" id="productResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>Movie</h2>
+        <div class="result" id="movieResult"></div>
+      </div>
+    </div>
+
+    <script>
+      class Playlist {
+        constructor(name, songs) {
+          this.name = name;
+          this.songs = songs;
+        }
+
+        displayPlaylist() {
+          const songList = this.songs.join(", ");
+
+          console.log("Playlist: " + this.name + " | Songs: " + songList);
+
+          return (
+            "<strong>Playlist:</strong> " +
+            this.name +
+            "<br>" +
+            "<strong>Songs:</strong> " +
+            songList
+          );
+        }
+
+        getSongCount() {
+          return this.songs.length;
+        }
+
+        addSong(songName) {
+          this.songs.push(songName);
+        }
+      }
+
+      const playlist1 = new Playlist("Chill Vibes", [
+        "Perfect",
+        "Blinding Lights",
+        "Shape of You",
+      ]);
+
+      const playlist2 = new Playlist("Chill Vibes", [
+        "Perfect",
+        "Blinding Lights",
+        "Shape of You",
+      ]);
+
+      const favoritePlaylist = new Playlist("My Favourite Songs", [
+        "Believer",
+        "Faded",
+        "Let Me Down Slowly",
+      ]);
+
+      class FlipkartProduct {
+        constructor(title, price, rating) {
+          this.title = title;
+          this.price = price;
+          this.rating = rating;
+        }
+
+        getDiscountedPrice(discountPercent) {
+          return this.price - (this.price * discountPercent) / 100;
+        }
+
+        displayDetails() {
+          const details =
+            this.title + " - ₹" + this.price + " - " + this.rating + "⭐";
+
+          console.log(details);
+
+          return details;
+        }
+
+        showProductInfo() {
+          const details =
+            this.title + " - ₹" + this.price + " - " + this.rating + "⭐";
+
+          console.log(details);
+
+          return details;
+        }
+      }
+
+      const product = new FlipkartProduct("Redmi Note 12 Pro", 18999, 4.5);
+
+      class Movie {
+        constructor(title, genre) {
+          this.title = title;
+          this.genre = genre;
+        }
+
+        display() {
+          const movieDetails = this.title + " - " + this.genre;
+
+          console.log(movieDetails);
+
+          return movieDetails;
+        }
+      }
+
+      const movie = new Movie("Avengers", "Action");
+
+      function runAssignment() {
+        console.log("Task 1 & 2");
+
+        console.log(playlist1);
+
+        console.log(playlist2);
+
+        console.log("Task 3");
+
+        console.log(favoritePlaylist);
+
+        console.log("Task 4 & 5");
+
+        const playlistOutput = favoritePlaylist.displayPlaylist();
+
+        document.getElementById("playlistResult").innerHTML = playlistOutput;
+
+        console.log("Task 6");
+
+        const songCount = favoritePlaylist.getSongCount();
+
+        console.log("Song Count:", songCount);
+
+        favoritePlaylist.addSong("Counting Stars");
+
+        favoritePlaylist.addSong("Dusk Till Dawn");
+
+        console.log("Updated Playlist:");
+
+        console.log(favoritePlaylist.displayPlaylist());
+
+        console.log("Updated Song Count:", favoritePlaylist.getSongCount());
+
+        document.getElementById("playlistResult").innerHTML =
+          favoritePlaylist.displayPlaylist() +
+          "<br><strong>Song Count:</strong> " +
+          favoritePlaylist.getSongCount();
+
+        console.log("Task 7 & 8");
+
+        const discountPercent = 10;
+
+        const discountedPrice = product.getDiscountedPrice(discountPercent);
+
+        console.log("Original Price:", product.price);
+
+        console.log("Discount:", discountPercent + "%");
+
+        console.log("Discounted Price:", discountedPrice);
+
+        console.log("Task 9");
+
+        const productDetails = product.displayDetails();
+
+        document.getElementById("productResult").innerHTML =
+          "<strong>Product:</strong> " +
+          productDetails +
+          "<br><strong>Discounted Price:</strong> ₹" +
+          discountedPrice;
+
+        console.log("Task 10 & 11");
+
+        const movieDetails = movie.display();
+
+        document.getElementById("movieResult").innerHTML =
+          "<strong>Movie:</strong> " + movieDetails;
+
+        console.log("Task 13");
+
+        const renamedProduct = product.showProductInfo();
+
+        console.log("Product information:", renamedProduct);
+      }
+
+      runAssignment();
+    </script>
+  </body>
+</html>

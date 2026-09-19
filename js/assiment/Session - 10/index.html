@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 10 - ES6 Syntax & Modern Features</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: #eee;
+      padding: 15px;
+      margin: 12px 0;
+      border-radius: 8px;
+    }
+
+    pre {
+      background: #222;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Session 10: ES6 Syntax & Modern Features</h1>
+
+    <div class="card">
+      <strong>Topics covered:</strong>
+      Template Literals, Default Parameters, Destructuring,
+      Spread Operator, Rest Parameters and Arrow Functions.
+    </div>
+
+    <h2>Output</h2>
+    <div id="output"></div>
+
+  </div>
+
+
+  <script>
+
+    function formatWelcomeMessage(userName, followers) {
+
+      return `Hello ${userName}, you have ${followers} followers!`;
+    }
+
+    const welcomeMessage =
+      formatWelcomeMessage("Mohit", 1200);
+
+    console.log(welcomeMessage);
+
+    const userName = "Mohit";
+    const playlistCount = 5;
+
+    const spotifyMessage =
+      `Hello ${userName}, you have ${playlistCount} playlists.`;
+
+    console.log(spotifyMessage);
+
+
+    function getDeliveryDetails(
+      address = "Ahmedabad",
+      paymentMethod = "UPI"
+    ) {
+
+      return `Delivery Address: ${address}, Payment Method: ${paymentMethod}`;
+    }
+
+    // Calling without arguments -> defaults are used.
+    console.log(getDeliveryDetails());
+
+    // Calling with custom values.
+    console.log(
+      getDeliveryDetails("Surat", "Cash on Delivery")
+    );
+
+    function orderFood(item, quantity = 1) {
+
+      return `You ordered ${quantity} ${item}${quantity > 1 ? "s" : ""}.`;
+    }
+
+
+    console.log(orderFood("Pizza"));
+    console.log(orderFood("Burger", 2));
+
+
+    const order = {
+      item: "Pizza",
+      price: 350,
+      user: "Amit"
+    };
+
+    // Extract item and price directly from object.
+    const {
+      item,
+      price
+    } = order;
+
+    const orderMessage =
+      `${order.user} ordered ${item} for ₹${price}.`;
+
+    console.log(orderMessage);
+
+    const movie = {
+      title: "Jawan",
+      rating: 4.5,
+      genre: "Action"
+    };
+
+    const {
+      title,
+      rating
+    } = movie;
+
+    const movieMessage =
+      `Movie: ${title}, Rating: ${rating}`;
+
+    console.log(movieMessage);
+
+    const cricketFans = [
+      "Virat",
+      "Rohit"
+    ];
+
+    const footballFans = [
+      "Messi",
+      "Ronaldo"
+    ];
+
+    const allFans = [
+      ...cricketFans,
+      ...footballFans
+    ];
+
+    console.log("Cricket Fans:", cricketFans);
+    console.log("Football Fans:", footballFans);
+    console.log("All Fans:", allFans);
+    const zomatoDishes = [
+      "Biryani",
+      "Pizza",
+      "Burger"
+    ];
+
+    const swiggyDishes = [
+      "Dosa",
+      "Pasta",
+      "Noodles"
+    ];
+
+    const allDishes = [
+      ...zomatoDishes,
+      ...swiggyDishes
+    ];
+    console.log("All Dishes:", allDishes);
+
+
+    const addToCartArrow = (...prices) => {
+
+      let total = 0;
+
+      for (const price of prices) {
+        total += price;
+      }
+
+      return total;
+    };
+
+    console.log(
+      "Cart Total:",
+      addToCartArrow(100, 200, 300)
+    );
+
+    console.log(
+      "Cart Total:",
+      addToCartArrow(150, 250, 400, 100)
+    );
+
+    const getFollowersSummary = (...followers) => {
+
+      const totalFollowers =
+        followers.reduce(
+          (total, count) => total + count,
+          0
+        );
+
+      return `Total followers: ${totalFollowers}`;
+    };
+
+    console.log("===== TASK 15 =====");
+
+    console.log(
+      getFollowersSummary(300, 400, 500)
+    );
+
+    const output =
+      document.getElementById("output");
+
+    const results = [
+      ["Task 1-2", welcomeMessage],
+      ["Task 3", spotifyMessage],
+      ["Task 4-5 (Default)", getDeliveryDetails()],
+      ["Task 4-5 (Custom)", getDeliveryDetails("Surat", "Cash on Delivery")],
+      ["Task 6", orderFood("Pizza")],
+      ["Task 6", orderFood("Burger", 2)],
+      ["Task 7-8", orderMessage],
+      ["Task 9", movieMessage],
+      ["Task 10-11", `All Fans: ${allFans.join(", ")}`],
+      ["Task 12", `All Dishes: ${allDishes.join(", ")}`],
+      ["Task 13-14", `Cart Total: ₹${addToCartArrow(100, 200, 300)}`],
+      ["Task 15", getFollowersSummary(300, 400, 500)]
+    ];
+
+    results.forEach(([task, result]) => {
+
+      const card =
+        document.createElement("div");
+
+      card.className = "card";
+
+      card.innerHTML = `
+        <strong>${task}</strong><br>
+        ${result}
+      `;
+
+      output.appendChild(card);
+    });
+
+    console.log("ES6 modern syntax examples completed.");
+  </script>
+
+</body>
+</html>

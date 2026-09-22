@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <section class="start-screen" id="startScreen">
+            <h1>JavaScript Quiz</h1>
+            <p>Test your JavaScript knowledge with 25 questions.</p>
+            
+            <div class="quiz-info">
+                <div class="info-box">
+                    <h3>25</h3>
+                    <p>QUE</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>20 min</h3>
+                    <p>time Limit</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>1 mark</h3>
+                    <p>PAR QUA</p>
+                </div>
+            </div>
+
+            <button class="start-btn" id="startBtn">Start Quiz</button>
+
+        </section>
+        <section class="quiz-screen" id="quizScreen">
+            <div class="quiz-header">
+                <div class="top-info">
+                    <div class="question-number" id="questionNumber">
+                        QUE 1 TO 25
+                    </div>
+                    <div class="timer" id="timer">20:00</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <h2 id="questionText">QUE GOSE HERE</h2>
+                <div class="options" id="optionsContainer"></div>
+
+                <div class="navigation">
+                    <button class="nav-btn prev-btn" id="prevBtn">← Previous</button>
+                    <button class="nav-btn next-btn" id="nextBtn">Next →</button>
+                    <button class="nav-btn submit-btn" id="submitBtn"> Submit Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="time-up-screen" id="timeUpScreen">
+            <div class="time-up-icon">⏰</div>
+            <h1>Time's Up!</h1>
+            <p>OOPS sorry try again later</p>
+            <button class="restart-btn" id="timeUpRestartBtn">Try Again</button>
+        </section>
+
+        <section class="result-screen" id="resultScreen">
+            <div class="result-header">
+                <h1>Quiz Completed 🎉</h1>
+
+                <div class="score" id="score">0/25</div>
+
+                <div class="score-text" id="scoreText">You scored 0 marks</div>
+            </div>
+
+                <div class="review-container" id="reviewContainer"></div>
+
+                <div class="restart-container">
+                    <button class="restart-btn" id="restartBtn">Restart Quiz</button>
+                </div>
+        </section>
+    </div>
+        <script src="script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="script.js"></script>
+  <title>Section B - JavaScript Practical Tasks</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Section B — Practical Coding Tasks</h1>
+    <p>Restaurant Profile • Menu Processing • Live Cart • Persistent Restaurant Favourite</p>
+  </header>
+
+  <main>
+    <section class="task">
+      <h2>Task 1 — Restaurant Profile Card</h2>
+      <p class="muted">The formatted profile is logged in the console and also previewed below.</p>
+      <div id="profilePreview" class="profile"></div>
+      <pre id="profileJson"></pre>
+    </section>
+
+    <section class="task">
+      <h2>Task 2 — Menu Filter & Summary</h2>
+      <p class="muted">Open DevTools → Console to see the labelled console outputs.</p>
+      <div id="menuSummary" class="profile"></div>
+    </section>
+
+    <section class="task">
+      <h2>Task 3 — Live Order Form</h2>
+
+      <form id="orderForm" novalidate>
+        <label for="dishName">Dish Name</label>
+        <input
+          id="dishName"
+          name="dishName"
+          type="text"
+          placeholder="e.g. Paneer Tikka"
+          autocomplete="off"
+        >
+
+        <label for="quantity">Quantity</label>
+        <input
+          id="quantity"
+          name="quantity"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="e.g. 2"
+        >
+
+        <span id="formError" class="error" aria-live="polite"></span>
+
+        <button type="submit">Add to Cart</button>
+      </form>
+
+      <div class="cart">
+        <h3>Live Cart</h3>
+        <ul id="cartList"></ul>
+      </div>
+    </section>
+
+    <section class="task">
+      <h2>Task 4 — Order Tracker with Persistence</h2>
+      <p id="restaurantStatus" class="muted" aria-live="polite">Preparing restaurant list…</p>
+      <div id="restaurantError" class="error" aria-live="assertive"></div>
+      <div id="restaurantList" class="restaurant-list"></div>
+      <p>
+        Favourite:
+        <strong id="favouriteRestaurant">None selected</strong>
+      </p>
+    </section>
+  </main>
+
+</body>
+</html>

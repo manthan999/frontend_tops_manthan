@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Food Delivery Menu App</title>
+  <style>
+    :root {
+      --primary: #e85d04;
+      --primary-dark: #c94f00;
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --border: #e4e7ec;
+      --success: #027a48;
+      --danger: #b42318;
+      --warning-bg: #fff7ed;
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    button,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, var(--primary), #ff9f5a);
+      color: #fff;
+      padding: 34px 20px;
+    }
+
+    .header-inner {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    .brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-row h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+    }
+
+    .cart-badge {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .restaurant-area {
+      margin-top: 24px;
+      background: rgba(255, 255, 255, 0.14);
+      padding: 18px;
+      border-radius: 14px;
+    }
+
+    .restaurant-area label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    #restaurantSelector {
+      width: 100%;
+      max-width: 520px;
+      padding: 12px;
+      border: 0;
+      border-radius: 10px;
+      color: var(--text);
+      background: #fff;
+    }
+
+    .status {
+      margin: 10px 0 0;
+      font-size: 0.95rem;
+    }
+
+    .error {
+      color: #ffe0dc;
+      margin-top: 8px;
+      font-weight: 700;
+      min-height: 24px;
+    }
+
+    main {
+      width: min(1180px, 92%);
+      margin: 28px auto 60px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .tab-button {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .tab-button.active,
+    .tab-button:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 18px;
+    }
+
+    .menu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 250px;
+    }
+
+    .category {
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .menu-card h3 {
+      margin: 8px 0 6px;
+    }
+
+    .menu-card p {
+      margin: 6px 0;
+      color: var(--muted);
+    }
+
+    .veg-badge {
+      display: inline-block;
+      margin: 8px 0 14px;
+      font-size: 0.82rem;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .add-button,
+    .primary-button {
+      width: 100%;
+      margin-top: auto;
+      border: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+
+    .add-button:hover,
+    .primary-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .cart-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .cart-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .cart-item h3 {
+      margin: 0 0 4px;
+    }
+
+    .cart-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .quantity-controls button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .remove-button {
+      width: auto !important;
+      padding: 0 10px;
+      color: var(--danger) !important;
+    }
+
+    .cart-summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+    }
+
+    .summary-total {
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .empty-state,
+    .clear-card {
+      background: var(--surface);
+      border: 1px dashed #cfd4dc;
+      border-radius: var(--radius);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .clear-card p {
+      color: var(--muted);
+    }
+
+    .clear-button {
+      border: 0;
+      background: #b42318;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+
+    .clear-button:hover {
+      background: #912018;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #111827;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: .2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 650px) {
+      .cart-item {
+        grid-template-columns: 1fr;
+      }
+
+      .quantity-controls {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-row">
+        <div>
+          <h1>FoodHub</h1>
+          <p>Interactive Food Delivery Menu</p>
+        </div>
+
+        <div class="cart-badge">
+          Cart Items: <span id="cartCount">0</span>
+        </div>
+      </div>
+
+      <div class="restaurant-area">
+        <label for="restaurantSelector">Choose a Restaurant</label>
+        <select id="restaurantSelector">
+          <option value="">Loading restaurants…</option>
+        </select>
+
+        <p id="restaurantLoading" class="status" aria-live="polite">
+          Loading restaurants…
+        </p>
+
+        <p id="restaurantError" class="error" aria-live="assertive"></p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="tabs" aria-label="Food delivery navigation">
+      <button
+        type="button"
+        class="tab-button active"
+        data-section="browseSection"
+      >
+        Browse Menu
+      </button>
+
+      <button
+        type="button"
+        class="tab-button"
+        data-section="cartSection"
+      >
+        View Cart
+      </button>
+
+      <button
+        type="button"
+        class="tab-button"
+        data-section="clearSection"
+      >
+        Clear Cart
+      </button>
+    </nav>
+
+    <section id="browseSection" class="section active">
+      <div class="section-heading">
+        <div>
+          <h2>Browse Menu</h2>
+          <p>Choose your favourite dishes and add them to the cart.</p>
+        </div>
+      </div>
+
+      <div id="menuGrid" class="menu-grid"></div>
+    </section>
+
+    <section id="cartSection" class="section">
+      <div class="section-heading">
+        <div>
+          <h2>View Cart</h2>
+          <p>Your saved cart remains available after page refresh.</p>
+        </div>
+      </div>
+
+      <div id="cartList" class="cart-list"></div>
+
+      <div id="cartSummary" class="cart-summary"></div>
+    </section>
+
+    <section id="clearSection" class="section">
+      <div class="clear-card">
+        <h2>Clear Cart</h2>
+        <p>
+          This removes every item from the cart and updates LocalStorage.
+          This action cannot be undone.
+        </p>
+
+        <button id="clearCartButton" class="clear-button" type="button">
+          Clear Entire Cart
+        </button>
+
+        <p id="clearMessage" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    "use strict";
+
+
+    const menuItems = [
+      {
+        id: 1,
+        name: "Paneer Tikka",
+        price: 180,
+        category: "Food",
+        isVegetarian: true
+      },
+      {
+        id: 2,
+        name: "Veg Biryani",
+        price: 220,
+        category: "Food",
+        isVegetarian: true
+      },
+      {
+        id: 3,
+        name: "Chicken Biryani",
+        price: 280,
+        category: "Food",
+        isVegetarian: false
+      },
+      {
+        id: 4,
+        name: "Masala Dosa",
+        price: 140,
+        category: "Food",
+        isVegetarian: true
+      },
+      {
+        id: 5,
+        name: "Cold Coffee",
+        price: 120,
+        category: "Beverage",
+        isVegetarian: true
+      },
+      {
+        id: 6,
+        name: "Chicken Tikka",
+        price: 260,
+        category: "Food",
+        isVegetarian: false
+      },
+      {
+        id: 7,
+        name: "Fresh Lime Soda",
+        price: 90,
+        category: "Beverage",
+        isVegetarian: true
+      },
+      {
+        id: 8,
+        name: "Gulab Jamun",
+        price: 100,
+        category: "Dessert",
+        isVegetarian: true
+      }
+    ];
+
+    const CART_STORAGE_KEY = "foodhub_cart_v1";
+    const RESTAURANT_API_URL = "https://jsonplaceholder.typicode.com/users";
+
+    let cart = loadCart();
+
+
+    const menuGrid = document.querySelector("#menuGrid");
+    const cartList = document.querySelector("#cartList");
+    const cartSummary = document.querySelector("#cartSummary");
+    const cartCount = document.querySelector("#cartCount");
+
+    const restaurantSelector =
+      document.querySelector("#restaurantSelector");
+    const restaurantLoading =
+      document.querySelector("#restaurantLoading");
+    const restaurantError =
+      document.querySelector("#restaurantError");
+
+    const clearCartButton =
+      document.querySelector("#clearCartButton");
+    const clearMessage =
+      document.querySelector("#clearMessage");
+
+    const toast = document.querySelector("#toast");
+
+    function loadCart() {
+      try {
+        const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+
+        if (!savedCart) {
+          return [];
+        }
+
+        const parsedCart = JSON.parse(savedCart);
+
+        if (!Array.isArray(parsedCart)) {
+          return [];
+        }
+
+        // Validate stored entries so corrupted/unexpected data
+        // does not break the application.
+        return parsedCart.filter(item =>
+          Number.isInteger(item.id) &&
+          Number.isInteger(item.quantity) &&
+          item.quantity > 0
+        );
+      } catch (error) {
+        console.error("Unable to read cart from LocalStorage:", error);
+        return [];
+      }
+    }
+
+    function saveCart() {
+      try {
+        localStorage.setItem(
+          CART_STORAGE_KEY,
+          JSON.stringify(cart)
+        );
+      } catch (error) {
+        console.error("Unable to save cart:", error);
+        showToast("Cart could not be saved in this browser.");
+      }
+    }
+
+
+    function renderMenu() {
+      menuGrid.textContent = "";
+
+      menuItems.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "menu-card";
+
+        const category = document.createElement("span");
+        category.className = "category";
+        category.textContent = item.category;
+
+        const title = document.createElement("h3");
+        title.textContent = item.name;
+
+        const price = document.createElement("p");
+        price.textContent = `Rs ${item.price}`;
+
+        const vegBadge = document.createElement("span");
+        vegBadge.className = "veg-badge";
+        vegBadge.textContent = item.isVegetarian
+          ? "✓ Vegetarian"
+          : "Non-Vegetarian";
+
+        const addButton = document.createElement("button");
+        addButton.type = "button";
+        addButton.className = "add-button";
+        addButton.textContent = "Add to Cart";
+
+        addButton.addEventListener("click", () => {
+          addToCart(item.id);
+        });
+
+        card.append(category, title, price, vegBadge, addButton);
+        menuGrid.appendChild(card);
+      });
+    }
+
+
+    function addToCart(itemId) {
+      const existingItem = cart.find(item => item.id === itemId);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: itemId,
+          quantity: 1
+        });
+      }
+
+      persistAndRender();
+      showToast("Item added to cart.");
+    }
+
+    function increaseQuantity(itemId) {
+      const item = cart.find(cartItem => cartItem.id === itemId);
+
+      if (item) {
+        item.quantity += 1;
+        persistAndRender();
+      }
+    }
+
+    function decreaseQuantity(itemId) {
+      const item = cart.find(cartItem => cartItem.id === itemId);
+
+      if (!item) {
+        return;
+      }
+
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+      } else {
+        cart = cart.filter(cartItem => cartItem.id !== itemId);
+      }
+
+      persistAndRender();
+    }
+
+    function removeFromCart(itemId) {
+      cart = cart.filter(item => item.id !== itemId);
+      persistAndRender();
+      showToast("Item removed.");
+    }
+
+    function clearCart() {
+      cart = [];
+      persistAndRender();
+      clearMessage.textContent = "Cart cleared successfully.";
+      showToast("Cart cleared.");
+    }
+
+    function persistAndRender() {
+      saveCart();
+      renderCart();
+      updateCartCount();
+    }
+
+
+    function getCartItemDetails(cartItem) {
+      return menuItems.find(item => item.id === cartItem.id);
+    }
+
+    function calculateCartTotal() {
+      return cart.reduce((total, cartItem) => {
+        const menuItem = getCartItemDetails(cartItem);
+
+        if (!menuItem) {
+          return total;
+        }
+
+        return total + menuItem.price * cartItem.quantity;
+      }, 0);
+    }
+
+    function getTotalQuantity() {
+      return cart.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+    }
+
+    function renderCart() {
+      cartList.textContent = "";
+
+      if (cart.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.innerHTML = `
+          <h3>Your cart is empty</h3>
+          <p>Go to Browse Menu and add some delicious dishes.</p>
+        `;
+        cartList.appendChild(empty);
+
+        cartSummary.innerHTML = `
+          <div class="summary-row">
+            <span>Total items</span>
+            <strong>0</strong>
+          </div>
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <strong>Rs 0</strong>
+          </div>
+        `;
+
+        return;
+      }
+
+      cart.forEach(cartItem => {
+        const menuItem = getCartItemDetails(cartItem);
+
+        if (!menuItem) {
+          return;
+        }
+
+        const item = document.createElement("article");
+        item.className = "cart-item";
+
+        const details = document.createElement("div");
+
+        const title = document.createElement("h3");
+        title.textContent = menuItem.name;
+
+        const lineTotal =
+          menuItem.price * cartItem.quantity;
+
+        const info = document.createElement("p");
+        info.textContent =
+          `Rs ${menuItem.price} × ${cartItem.quantity} = Rs ${lineTotal}`;
+
+        details.append(title, info);
+
+        const controls = document.createElement("div");
+        controls.className = "quantity-controls";
+
+        const decreaseButton = document.createElement("button");
+        decreaseButton.type = "button";
+        decreaseButton.textContent = "−";
+        decreaseButton.setAttribute(
+          "aria-label",
+          `Decrease ${menuItem.name} quantity`
+        );
+
+        decreaseButton.addEventListener("click", () => {
+          decreaseQuantity(menuItem.id);
+        });
+
+        const quantity = document.createElement("strong");
+        quantity.textContent = cartItem.quantity;
+
+        const increaseButton = document.createElement("button");
+        increaseButton.type = "button";
+        increaseButton.textContent = "+";
+        increaseButton.setAttribute(
+          "aria-label",
+          `Increase ${menuItem.name} quantity`
+        );
+
+        increaseButton.addEventListener("click", () => {
+          increaseQuantity(menuItem.id);
+        });
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "remove-button";
+        removeButton.textContent = "Remove";
+
+        removeButton.addEventListener("click", () => {
+          removeFromCart(menuItem.id);
+        });
+
+        controls.append(
+          decreaseButton,
+          quantity,
+          increaseButton,
+          removeButton
+        );
+
+        item.append(details, controls);
+        cartList.appendChild(item);
+      });
+
+      const totalItems = getTotalQuantity();
+      const totalPrice = calculateCartTotal();
+
+      cartSummary.innerHTML = `
+        <div class="summary-row">
+          <span>Total items</span>
+          <strong>${totalItems}</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>Unique dishes</span>
+          <strong>${cart.length}</strong>
+        </div>
+
+        <div class="summary-row summary-total">
+          <span>Grand Total</span>
+          <strong>Rs ${totalPrice}</strong>
+        </div>
+      `;
+    }
+
+    function updateCartCount() {
+      cartCount.textContent = getTotalQuantity();
+    }
+
+    function setupNavigation() {
+      const tabButtons =
+        document.querySelectorAll(".tab-button");
+
+      const sections =
+        document.querySelectorAll(".section");
+
+      tabButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const targetId = button.dataset.section;
+
+          tabButtons.forEach(tab =>
+            tab.classList.remove("active")
+          );
+
+          sections.forEach(section =>
+            section.classList.remove("active")
+          );
+
+          button.classList.add("active");
+
+          const targetSection =
+            document.getElementById(targetId);
+
+          if (targetSection) {
+            targetSection.classList.add("active");
+          }
+        });
+      });
+    }
+
+
+    async function loadRestaurants() {
+      restaurantLoading.textContent = "Loading restaurants…";
+      restaurantError.textContent = "";
+
+      try {
+        const response = await fetch(RESTAURANT_API_URL);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const users = await response.json();
+
+        restaurantSelector.innerHTML = "";
+
+        const defaultOption =
+          document.createElement("option");
+
+        defaultOption.value = "";
+        defaultOption.textContent = "Select a restaurant";
+        restaurantSelector.appendChild(defaultOption);
+
+        users.forEach(user => {
+          const option =
+            document.createElement("option");
+
+          option.value = user.id;
+          option.textContent = user.name;
+
+          restaurantSelector.appendChild(option);
+        });
+
+        restaurantLoading.textContent =
+          "Restaurants loaded successfully.";
+      } catch (error) {
+        console.error("Restaurant fetch failed:", error);
+
+        restaurantSelector.innerHTML = "";
+
+        const errorOption =
+          document.createElement("option");
+
+        errorOption.value = "";
+        errorOption.textContent =
+          "Restaurant list unavailable";
+
+        restaurantSelector.appendChild(errorOption);
+
+        restaurantLoading.textContent = "";
+
+        restaurantError.textContent =
+          "Could not load restaurants. Please check your connection and try again.";
+      }
+    }
+
+
+    let toastTimer;
+
+    function showToast(message) {
+      clearTimeout(toastTimer);
+
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+    }
+
+
+    function initApp() {
+      renderMenu();
+
+      renderCart();
+      updateCartCount();
+
+      setupNavigation();
+
+      clearCartButton.addEventListener(
+        "click",
+        clearCart
+      );
+
+      loadRestaurants();
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
